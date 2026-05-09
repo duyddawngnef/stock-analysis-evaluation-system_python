@@ -1,0 +1,27 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="row align-items-center g-2">
+      <div class="col-md-6">
+        <div class="d-flex align-items-center gap-2 mb-1">
+          <span class="material-icons" style="font-size:18px; color:var(--color-primary);">bar_chart</span>
+          <span class="text-white fw-semibold">VN Stock Analyzer</span>
+        </div>
+        <p class="mb-0" style="font-size:0.75rem;">
+          Dữ liệu từ <strong>vnstock</strong> — Chỉ dành cho mục đích học tập và nghiên cứu.
+          Không phải lời khuyên đầu tư.
+        </p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <p class="mb-1" style="font-size:0.75rem;">
+          <span class="material-icons" style="font-size:13px; vertical-align:middle;">school</span>
+          Đồ án Python — Nhóm sinh viên
+        </p>
+        <div class="d-flex gap-3 justify-content-md-end">
+          <a href="{{ url_for('trang.trang_chu') }}">Trang chủ</a>
+          <a href="{{ url_for('trang.so_sanh') }}">So sánh</a>
+          <a href="{{ url_for('trang.ket_qua') }}?ma=VNM">Demo</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

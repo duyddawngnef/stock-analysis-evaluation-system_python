@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+
+{% block title %}Trang chủ{% endblock %}
+{% block meta_desc %}Phân tích cổ phiếu Việt Nam miễn phí — Phân tích kỹ thuật, cơ bản, và so sánh tới 5 mã HOSE HNX UPCOM{% endblock %}
+
+{% block content %}
+
+<!-- ======================================================================
+     HERO SECTION
+     ====================================================================== -->
+<section class="hero-section" aria-labelledby="heroHeading">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-xl-7 text-center">
+
+        <h1 class="hero-title" id="heroHeading">
+          Phân tích <span>cổ phiếu</span> Việt Nam<br>
+          chuyên sâu & miễn phí
+        </h1>
+        <p class="hero-subtitle">
+          Hơn 1.500 mã HOSE · HNX · UPCOM — Kỹ thuật, Cơ bản, So sánh tới 5 mã
+        </p>
+
+        <!-- Search form -->
+        <form id="heroSearchForm" class="hero-search" role="search"
+              action="{{ url_for('trang.ket_qua') }}" method="get">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text" id="searchIcon">
+              <span class="material-icons" style="color:var(--color-secondary);">search</span>
+            </span>
+            <input id="heroSearchInput"
+                   type="text"
+                   name="ma"
+                   class="form-control"
+                   placeholder="Nhập mã cổ phiếu: VNM, FPT, HPG…"
+                   aria-label="Nhập mã cổ phiếu"
+                   aria-describedby="searchIcon btnPhanTich"
+                   maxlength="10"
+                   autocomplete="off"
+                   autofocus>
+            <button id="btnPhanTich" class="btn btn-primary px-4" type="submit">
+              <span class="material-icons">search</span>
+              Phân tích
+            </button>
+          </div>
+          <div id="heroSearchError" class="text-warning mt-2 d-none" role="alert">
+            <span class="material-icons" style="font-size:14px; vertical-align:middle;">warning</span>
+            Vui lòng nhập mã cổ phiếu.
+          </div>
+        </form>
+
+        <!-- Suggestion chips -->
+        <div class="suggestion-chips justify-content-center mt-3" aria-label="Mã gợi ý">
+          {% for ma in ['VNM', 'FPT', 'HPG', 'VIC', 'MWG', 'VCB', 'BID', 'TCB'] %}
+          <a href="{{ url_for('trang.ket_qua') }}?ma={{ ma }}"
+             class="suggestion-chip"
+             aria-label="Phân tích {{ ma }}">{{ ma }}</a>
+          {% endfor %}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     POPULAR TICKERS
+     ====================================================================== -->
+<section class="py-5" aria-labelledby="popularHeading">
+  <div class="container">
+
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <h2 class="fs-5 fw-bold mb-0" id="popularHeading">
+        <span class="material-icons align-middle me-1" style="color:var(--color-primary); font-size:20px;">star</span>
+        Mã phổ biến
+      </h2>
+      <a href="{{ url_for('trang.so_sanh') }}?ma=VNM,FPT,HPG,VIC,MWG"
+         class="btn btn-outline-primary btn-sm">
+        <span class="material-icons">compare_arrows</span>
+        So sánh nhóm này
+      </a>
+    </div>
+
+    <div class="row g-3" id="popularGrid">
+      {% set tickers = [
+        ('VNM', 'Vinamilk',        67.5,   1.81, 'positive'),
+        ('FPT', 'FPT Corp',        115.2, -0.52, 'negative'),
+        ('HPG', 'Hòa Phát Group',   28.4,   0.35, 'positive'),
+        ('VIC', 'Vingroup',          42.1, -1.17, 'negative'),
+        ('MWG', 'Thế Giới Di Động', 55.6,   2.03, 'positive'),
+        ('VCB', 'Vietcombank',       88.0,   0.11, 'positive'),
+        ('BID', 'BIDV',              48.5, -0.20, 'negative'),
+        ('TCB', 'Techcombank',       22.3,   0.45, 'positive'),
+      ] %}
+      {% for ma, ten, gia, thay_doi, cls in tickers %}
+      <div class="col-6 col-sm-4 col-md-3 col-lg-3">
+        <a href="{{ url_for('trang.ket_qua') }}?ma={{ ma }}"
+           class="popular-ticker-card"
+           aria-label="Xem phân tích {{ ma }}">
+          <div class="d-flex justify-content-between align-items-start">
+            <span class="ticker-symbol">{{ ma }}</span>
+            <span class="ticker-change {{ cls }}">
+              {{ '+' if thay_doi > 0 else '' }}{{ '%.2f'|format(thay_doi) }}%
+            </span>
+          </div>
+          <div class="ticker-name">{{ ten }}</div>
+          <div class="ticker-price">{{ '%.1f'|format(gia) }} <small class="text-muted fw-normal">nghìn ₫</small></div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+<!-- ======================================================================
+     FEATURES
+     ====================================================================== -->
+<section class="py-5 bg-white border-top border-bottom" aria-labelledby="featuresHeading">
+  <div class="container">
+
+    <div class="text-center mb-4">
+      <h2 class="fs-4 fw-bold" id="featuresHeading">Tính năng nổi bật</h2>
+      <p class="text-muted mb-0">Tất cả công cụ cần thiết để phân tích cổ phiếu Việt Nam</p>
+    </div>
+
+    <div class="row g-4">
+
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon blue">
+            <span class="material-icons">trending_up</span>
+          </div>
+          <h3 class="feature-title">Phân tích Kỹ thuật</h3>
+          <p class="feature-desc">
+            MA20/50/200, RSI, MACD, Bollinger Bands — Tín hiệu MUA/BÁN tự động
+            với biểu đồ tương tác zoom/pan.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon green">
+            <span class="material-icons">analytics</span>
+          </div>
+          <h3 class="feature-title">Phân tích Cơ bản</h3>
+          <p class="feature-desc">
+            ROE, ROA, EPS, P/E, P/B, D/E — Chấm điểm 0–12 theo tiêu chuẩn
+            và phân loại TỐT / KHÁ / YẾU.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon orange">
+            <span class="material-icons">compare_arrows</span>
+          </div>
+          <h3 class="feature-title">So sánh nhiều mã</h3>
+          <p class="feature-desc">
+            Đặt cạnh nhau tới 5 cổ phiếu — biểu đồ giá chuẩn hóa,
+            bảng chỉ số đối chiếu, tín hiệu kỹ thuật song song.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     DISCLAIMER
+     ====================================================================== -->
+<section class="py-4">
+  <div class="container">
+    <div class="alert alert-warning" role="note">
+      <span class="material-icons">info</span>
+      <div>
+        <strong>Lưu ý:</strong> Thông tin trên trang web này chỉ phục vụ mục đích
+        <strong>học tập và nghiên cứu</strong>. Không phải lời khuyên đầu tư.
+        Dữ liệu được cung cấp bởi <strong>vnstock</strong>; hãy kiểm chứng
+        với CafeF / Vietstock trước khi ra quyết định.
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Validate empty search
+  document.getElementById('heroSearchForm').addEventListener('submit', function (e) {
+    const val = document.getElementById('heroSearchInput').value.trim();
+    if (!val) {
+      e.preventDefault();
+      document.getElementById('heroSearchError').classList.remove('d-none');
+    }
+  });
+  // Auto-uppercase input
+  document.getElementById('heroSearchInput').addEventListener('input', function () {
+    const pos = this.selectionStart;
+    this.value = this.value.toUpperCase();
+    this.setSelectionRange(pos, pos);
+    document.getElementById('heroSearchError').classList.add('d-none');
+  });
+</script>
+{% endblock %}

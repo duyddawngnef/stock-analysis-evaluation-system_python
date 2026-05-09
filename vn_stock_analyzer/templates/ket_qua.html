@@ -1,0 +1,390 @@
+{% extends 'base.html' %}
+{% from 'components/header.html' import stock_header %}
+
+{% block title %}Phân tích {{ ma_cp }}{% endblock %}
+{% block meta_desc %}Phân tích kỹ thuật và cơ bản cổ phiếu {{ ma_cp }} — MA, RSI, MACD, Bollinger, ROE, ROA, P/E{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Stock header card -->
+  {{ stock_header(ma_cp) }}
+
+  <!-- Tab navigation -->
+  <div class="mb-0">
+    {% include 'components/tab_navigation.html' %}
+  </div>
+
+  <!-- ================================================================
+       TAB CONTENT
+       ================================================================ -->
+  <div class="tab-content" id="resultTabContent">
+
+    <!-- ==============================================================
+         TAB 1 — TỔNG QUAN
+         ============================================================== -->
+    <div class="tab-pane fade show active"
+         id="tong-quan"
+         role="tabpanel"
+         aria-labelledby="tab-tong-quan">
+
+      <!-- Metric cards row -->
+      <div class="row g-3 mb-4">
+
+        <div class="col-6 col-md-3">
+          <div class="metric-card" style="--metric-accent:#0d6efd; --metric-accent-bg:rgba(13,110,253,.1);">
+            <div class="metric-icon">
+              <span class="material-icons">payments</span>
+            </div>
+            <div class="label-metric mb-1">Giá đóng cửa</div>
+            <div class="metric-value" id="metricGia">—</div>
+            <small class="text-muted" id="metricNgay">—</small>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+          <div class="metric-card" style="--metric-accent:#20c997; --metric-accent-bg:rgba(32,201,151,.1);">
+            <div class="metric-icon">
+              <span class="material-icons">swap_vert</span>
+            </div>
+            <div class="label-metric mb-1">Khối lượng</div>
+            <div class="metric-value" id="metricKL">—</div>
+            <small class="text-muted">cổ phiếu</small>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+          <div class="metric-card" style="--metric-accent:#6f42c1; --metric-accent-bg:rgba(111,66,193,.1);">
+            <div class="metric-icon">
+              <span class="material-icons">account_balance</span>
+            </div>
+            <div class="label-metric mb-1">Vốn hóa</div>
+            <div class="metric-value" id="metricVH">—</div>
+            <small class="text-muted">tỷ đồng</small>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+          <div class="metric-card" style="--metric-accent:#fd7e14; --metric-accent-bg:rgba(253,126,20,.1);">
+            <div class="metric-icon">
+              <span class="material-icons">business</span>
+            </div>
+            <div class="label-metric mb-1">Ngành</div>
+            <div class="metric-value fs-6" id="metricNganh">—</div>
+            <small class="text-muted" id="metricSan">—</small>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Price chart -->
+      <div class="chart-container mb-4">
+        <div class="chart-title">
+          <span class="material-icons">show_chart</span>
+          Biểu đồ giá lịch sử
+          <span class="ms-auto text-muted fw-normal" style="font-size:0.75rem;">Cuộn để zoom · Kéo để pan</span>
+        </div>
+        <div class="chart-inner" style="height:340px;">
+          <canvas id="priceChart" aria-label="Biểu đồ giá lịch sử"></canvas>
+          <div id="priceChartLoading" class="loading-overlay">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Đang tải…</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Volume chart -->
+      <div class="chart-container">
+        <div class="chart-title">
+          <span class="material-icons">bar_chart</span>
+          Khối lượng giao dịch
+        </div>
+        <div class="chart-inner" style="height:160px;">
+          <canvas id="volumeChart" aria-label="Biểu đồ khối lượng giao dịch"></canvas>
+        </div>
+      </div>
+
+    </div><!-- /tab-tong-quan -->
+
+
+    <!-- ==============================================================
+         TAB 2 — KỸ THUẬT
+         ============================================================== -->
+    <div class="tab-pane fade"
+         id="ky-thuat"
+         role="tabpanel"
+         aria-labelledby="tab-ky-thuat">
+
+      <div class="row g-4">
+
+        <!-- Signal panel -->
+        <div class="col-lg-4">
+          <div class="signal-panel h-100">
+            <h2 class="fs-6 fw-bold mb-3">
+              <span class="material-icons align-middle me-1" style="font-size:18px;">bolt</span>
+              Tín hiệu tổng hợp
+            </h2>
+
+            <!-- Overall signal -->
+            <div class="signal-overall" id="signalOverall">
+              <div class="signal-icon-wrap" id="signalIconWrap">
+                <span class="material-icons" id="signalIcon">hourglass_empty</span>
+              </div>
+              <div>
+                <div class="signal-label">Khuyến nghị</div>
+                <div class="signal-value" id="signalValue">Đang tải…</div>
+                <div class="signal-explain mt-1" id="signalExplain"></div>
+              </div>
+            </div>
+
+            <!-- RSI gauge -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <span class="label-metric">RSI (14)</span>
+                <span class="fw-semibold" id="rsiValue" style="font-size:var(--font-size-sm);">—</span>
+              </div>
+              <div class="rsi-gauge" role="img" aria-label="RSI gauge">
+                <div class="rsi-needle" id="rsiNeedle" style="left:50%;"></div>
+              </div>
+              <div class="d-flex justify-content-between" style="font-size:0.7rem; color:var(--color-secondary);">
+                <span>0 — Quá bán</span>
+                <span>30</span>
+                <span>70</span>
+                <span>100 — Quá mua</span>
+              </div>
+            </div>
+
+            <!-- Indicators table -->
+            <div id="indicatorsTable">
+              {% for label in ['MA20', 'MA50', 'MA200', 'MACD', 'Bollinger'] %}
+              <div class="indicator-row">
+                <span class="indicator-name">
+                  <span class="dot" style="background:var(--color-secondary);"></span>
+                  {{ label }}
+                </span>
+                <span class="indicator-value text-muted">—</span>
+              </div>
+              {% endfor %}
+            </div>
+
+          </div>
+        </div><!-- /signal panel -->
+
+        <!-- Charts column -->
+        <div class="col-lg-8">
+
+          <!-- Price + MA chart -->
+          <div class="chart-container mb-4">
+            <div class="chart-title">
+              <span class="material-icons">show_chart</span>
+              Giá + Đường trung bình động (MA)
+            </div>
+            <div class="chart-inner" style="height:260px;">
+              <canvas id="maChart" aria-label="Biểu đồ MA"></canvas>
+              <div id="maChartLoading" class="loading-overlay">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Đang tải…</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RSI chart -->
+          <div class="chart-container mb-4">
+            <div class="chart-title">
+              <span class="material-icons">speed</span>
+              RSI (14 kỳ)
+            </div>
+            <div class="chart-inner" style="height:160px;">
+              <canvas id="rsiChart" aria-label="Biểu đồ RSI"></canvas>
+            </div>
+          </div>
+
+          <!-- MACD chart -->
+          <div class="chart-container">
+            <div class="chart-title">
+              <span class="material-icons">waterfall_chart</span>
+              MACD
+            </div>
+            <div class="chart-inner" style="height:180px;">
+              <canvas id="macdChart" aria-label="Biểu đồ MACD"></canvas>
+            </div>
+          </div>
+
+        </div><!-- /charts column -->
+      </div><!-- /row -->
+
+      <!-- Bollinger info row -->
+      <div class="row g-3 mt-2">
+        <div class="col-12">
+          <div class="chart-container">
+            <div class="chart-title">
+              <span class="material-icons">timeline</span>
+              Bollinger Bands — Giá trị hiện tại
+            </div>
+            <div class="row g-3" id="bollingerCards">
+              {% for label, id_suf in [('Dải trên', 'Upper'), ('Dải giữa (MA20)', 'Middle'), ('Dải dưới', 'Lower')] %}
+              <div class="col-4">
+                <div class="text-center">
+                  <div class="label-metric">{{ label }}</div>
+                  <div class="fw-bold fs-5 mt-1" id="bb{{ id_suf }}">—</div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tab-ky-thuat -->
+
+
+    <!-- ==============================================================
+         TAB 3 — CƠ BẢN
+         ============================================================== -->
+    <div class="tab-pane fade"
+         id="co-ban"
+         role="tabpanel"
+         aria-labelledby="tab-co-ban">
+
+      <div class="row g-4">
+
+        <!-- Score total card -->
+        <div class="col-lg-3 col-md-4">
+          <div class="score-total-card">
+            <div class="score-donut" id="scoreDonut" aria-label="Biểu đồ điểm tổng">
+              <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#e8ecf0" stroke-width="3.2"/>
+                <circle id="scoreDonutArc" cx="18" cy="18" r="15.9" fill="none"
+                        stroke="#198754" stroke-width="3.2"
+                        stroke-dasharray="0 100"
+                        stroke-linecap="round"/>
+              </svg>
+              <div class="score-donut-text">
+                <span id="scoreTong">—</span>
+                <small>/12</small>
+              </div>
+            </div>
+            <div class="label-metric text-center mb-1">Tổng điểm</div>
+            <div class="text-center">
+              <span id="scorePhanLoai" class="badge badge-signal">—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Score bars -->
+        <div class="col-lg-9 col-md-8">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body">
+              <h2 class="fs-6 fw-bold mb-3">
+                <span class="material-icons align-middle me-1" style="font-size:18px;">grade</span>
+                Chấm điểm từng chỉ số
+              </h2>
+              <div id="scoreBars">
+                {% set metrics = [
+                  ('ROE', 'Tỷ suất sinh lợi vốn CSH', '>20% tốt, 15-20% khá'),
+                  ('ROA', 'Tỷ suất sinh lợi tài sản', '>10% tốt, 5-10% khá'),
+                  ('EPS', 'Lợi nhuận trên cổ phiếu', '>5.000₫ tốt'),
+                  ('PE',  'Hệ số giá/lợi nhuận', '8-15 tốt, 15-20 khá'),
+                  ('PB',  'Hệ số giá/giá trị sổ', '<1.5 tốt, 1.5-2.5 khá'),
+                  ('DE',  'Tỷ lệ nợ/vốn CSH', '<1 tốt, 1-2 khá'),
+                ] %}
+                {% for key, desc, hint in metrics %}
+                <div class="score-item">
+                  <span class="score-label">{{ key }}</span>
+                  <span class="score-value" id="chiSo{{ key }}">—</span>
+                  <div class="score-bar-wrap" title="{{ hint }}">
+                    <div class="score-bar-fill score-0" id="bar{{ key }}"></div>
+                  </div>
+                  <span class="score-pts" id="pts{{ key }}">—</span>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /row -->
+
+      <!-- Thresholds reference -->
+      <div class="card border-0 shadow-sm mt-4">
+        <div class="card-body">
+          <h2 class="fs-6 fw-bold mb-3">
+            <span class="material-icons align-middle me-1" style="font-size:18px;">table_chart</span>
+            Bảng tiêu chuẩn chấm điểm
+          </h2>
+          <div class="table-responsive">
+            <table class="table table-sm table-hover align-middle mb-0" aria-label="Tiêu chuẩn chấm điểm">
+              <thead class="table-dark">
+                <tr>
+                  <th>Chỉ số</th>
+                  <th class="text-success">2 điểm ⭐⭐</th>
+                  <th class="text-warning">1 điểm ⭐</th>
+                  <th class="text-danger">0 điểm</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% set thresholds = [
+                  ('ROE', '> 20%', '15 – 20%', '< 15%'),
+                  ('ROA', '> 10%', '5 – 10%', '< 5%'),
+                  ('EPS', '> 5.000 ₫', '2.000 – 5.000 ₫', '< 2.000 ₫'),
+                  ('P/E', '8 – 15', '15 – 20', '> 20 hoặc < 8'),
+                  ('P/B', '< 1.5', '1.5 – 2.5', '> 2.5'),
+                  ('D/E', '< 1', '1 – 2', '> 2'),
+                ] %}
+                {% for m, t2, t1, t0 in thresholds %}
+                <tr>
+                  <td class="fw-semibold">{{ m }}</td>
+                  <td class="text-success">{{ t2 }}</td>
+                  <td class="text-warning">{{ t1 }}</td>
+                  <td class="text-danger">{{ t0 }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tab-co-ban -->
+
+
+    <!-- ==============================================================
+         TAB 4 — SO SÁNH (redirect prompt)
+         ============================================================== -->
+    <div class="tab-pane fade"
+         id="so-sanh-tab"
+         role="tabpanel"
+         aria-labelledby="tab-so-sanh">
+
+      <div class="text-center py-5">
+        <div class="mb-3">
+          <span class="material-icons" style="font-size:64px; color:var(--color-primary); opacity:.9;">compare_arrows</span>
+        </div>
+        <h2 class="fs-4 fw-bold mb-2">So sánh nhiều cổ phiếu</h2>
+        <p class="text-muted mb-4" style="max-width:480px; margin:0 auto;">
+          Đặt <strong>{{ ma_cp }}</strong> cạnh tối đa 4 mã khác để so sánh
+          biểu đồ giá, chỉ số cơ bản và tín hiệu kỹ thuật.
+        </p>
+        <a id="btnGoCompare"
+           href="{{ url_for('trang.so_sanh') }}?ma={{ ma_cp }}"
+           class="btn btn-primary btn-lg">
+          <span class="material-icons">compare_arrows</span>
+          Mở trang So sánh với {{ ma_cp }}
+        </a>
+      </div>
+
+    </div><!-- /tab-so-sanh -->
+
+  </div><!-- /tab-content -->
+</div><!-- /container -->
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Pass ticker to page JS
+  const PAGE_MA_CP = {{ ma_cp | tojson }};
+  document.addEventListener('DOMContentLoaded', () => initKetQua(PAGE_MA_CP));
+</script>
+{% endblock %}
