@@ -59,6 +59,13 @@ These are predictable issues documented in advance. Check these first before deb
 - **Cause**: Cache file exists and TTL check is skipped
 - **Fix**: Cache TTL = 24 hours. Force refresh by deleting `data/gia/<TICKER>_gia.csv`
 
+### Excel export trả về 501
+
+- **Symptom**: Nhấn nút "Xuất Excel" → lỗi 501 Not Implemented
+- **Cause**: `routes/export_routes.py` chưa được triển khai — hiện là stub
+- **Fix**: Implement openpyxl logic trong `export_routes.py` theo đặc tả trong `docs/data_contract.md`
+- **Status**: Planned (chưa có deadline)
+
 ---
 
 ## Active Bug Log

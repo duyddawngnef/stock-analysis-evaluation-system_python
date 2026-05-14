@@ -16,7 +16,7 @@ When integrating real modules, they **must** return the exact same structure —
     "ten_cong_ty": str,           # full Vietnamese company name
     "nganh": str,                 # sector/industry
     "san": str,                   # "HOSE" | "HNX" | "UPCOM"
-    "gia_hien_tai": float,        # current price (VND, thousands)
+    "gia_hien_tai": float,        # current price (VND, đồng)
     "thay_doi_phan_tram": float,  # % change from previous session
     "khoi_luong": int,            # trading volume (shares)
     "von_hoa": float,             # market cap (tỷ đồng)
@@ -28,10 +28,10 @@ When integrating real modules, they **must** return the exact same structure —
 | Column   | Type        | Notes                        |
 | -------- | ----------- | ---------------------------- |
 | date     | datetime64  | business days only           |
-| open     | float       | VND (thousands)              |
-| high     | float       | VND (thousands)              |
-| low      | float       | VND (thousands)              |
-| close    | float       | VND (thousands)              |
+| open     | float       | VND (đồng)                   |
+| high     | float       | VND (đồng)                   |
+| low      | float       | VND (đồng)                   |
+| close    | float       | VND (đồng)                   |
 | volume   | int         | shares traded                |
 
 Sorted **ascending** by `date` (oldest row first). No NaN in any column.
@@ -142,3 +142,44 @@ Each DataFrame: **rows** = indicator names (Vietnamese string), **columns** = re
 | D/E    | < 1        | 1–2         | > 2            |
 
 **Classification:** TỐT (9–12 pts), KHÁ (5–8 pts), YẾU (0–4 pts).
+
+---
+
+## Module Export — Xuất Excel (`routes/export_routes.py`)
+
+### `GET /api/xuat-excel/<ma_cp>`
+
+**Trạng thái:** Stub — trả về 501 Not Implemented.
+
+**Khi triển khai**, module export phải:
+
+1. Gọi `module1.lay_thong_tin_co_phieu(ma_cp)`
+2. Gọi `module1.lay_gia_lich_su(ma_cp, ...)`
+3. Gọi `module2.tom_tat_module2(df_gia)`
+4. Gọi `module3.tom_tat_module3(ma_cp)`
+5. Tạo file Excel với openpyxl — 4 sheets:
+
+| Sheet | Nội dung |
+| --- | --- |
+| Tổng quan | Thông tin cơ bản, giá hiện tại, volume, market cap |
+| Kỹ thuật | MA20/50/200, RSI, MACD, Bollinger, tín hiệu tổng hợp |
+| Cơ bản | ROE, ROA, EPS, P/E, P/B, D/E + điểm + phân loại |
+| Đánh giá | Nhận xét tổng hợp, khuyến nghị |
+
+**Quy tắc định dạng số trong Excel:**
+
+```python
+cell.number_format = '#,##0'      # số nguyên (VND, volume)
+cell.number_format = '#,##0.00'   # số thực (%, tỷ lệ)
+```
+
+**Output path:** `output/<MA_CP>_<YYYY-MM-DD>.xlsx`
+
+---
+
+## Nguyên tắc tích hợp
+
+1. Đổi import trong `app.py` từ `fake_data` sang module thật — **không chỉnh sửa UI hoặc route**.
+2. Nếu phải chỉnh sửa template khi tích hợp → data contract đã bị vi phạm.
+3. Kiểm tra bằng cách chạy `pytest vn_stock_analyzer/tests/` sau khi tích hợp.
+4. Xem `docs/BUGS.md` để biết các pitfall phổ biến với vnstock.
