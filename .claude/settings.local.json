@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(Get-ChildItem -Path \"c:\\\\VSCODE\\\\stock-analysis-evaluation-system_python\" -Recurse -Force)",
-      "Bash(Select-Object FullName)",
-      "Bash(Sort-Object FullName)"
-    ]
-  }
-}
