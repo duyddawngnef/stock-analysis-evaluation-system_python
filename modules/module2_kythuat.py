@@ -6,23 +6,19 @@ def tinh_ma(df_gia: pd.DataFrame, period: int) -> pd.Series:
     ma.name = f"MA{period}" 
     return ma
 
-def tao_tin_hieu_ma(df_gia: pd.DataFrame) -> str:
-    # Quy tắc:
-    #   - Giá > MA20 > MA50 > MA200 → "MUA MẠNH"
-    #   - Giá > MA20             → "MUA"
-    #   - Giá nằm giữa MA20 và MA50 → "GIỮ"
-    #   - Giá < MA20             → "BÁN"  
-    gia_hien_tai = df_gia['close'].iloc[-1]
+def tao_tin_hieu_ma(df_gia: pd.DataFrame) -> dict:
     ma20  = tinh_ma(df_gia, 20).iloc[-1]
     ma50  = tinh_ma(df_gia, 50).iloc[-1]
     ma200 = tinh_ma(df_gia, 200).iloc[-1]
-
-    if gia_hien_tai > ma20 and ma20 > ma50 and ma50 > ma200:
-        return "MUA"  
-    elif gia_hien_tai < ma20:
-        return "BÁN"
-    else:
-        return "GIỮ"
+    price = df_gia['close'].iloc[-1]
+ 
+    diem = 0
+    if not pd.isna(ma20)  and price > ma20:  diem += 1
+    if not pd.isna(ma50)  and ma20  > ma50:  diem += 1
+    if not pd.isna(ma200) and ma50  > ma200: diem += 1
+ 
+    tin_hieu = ["BÁN", "GIỮ", "MUA", "MUA MẠNH"][diem]
+    return {"tin_hieu": tin_hieu, "diem": diem, "ma20": ma20, "ma50": ma50}
     
 #Tính RSI (Chỉ số sức mạnh tương đối) để đánh giá tình trạng quá mua hoặc quá bán của cổ phiếu.
 def tinh_rsi(df_gia: pd.DataFrame, period: int = 14) -> pd.Series:
@@ -118,37 +114,38 @@ def tao_tin_hieu_chung(df_gia: pd.DataFrame) -> dict:
 def tom_tat_module2(df_gia: pd.DataFrame) -> dict:
     assert len(df_gia) >= 20, f"Cần ít nhất 20 ngày dữ liệu, chỉ có {len(df_gia)}"
     assert 'close' in df_gia.columns, "DataFrame thiếu cột 'close'"
-
-    ma20  = tinh_ma(df_gia, 20)
-    ma50  = tinh_ma(df_gia, 50)
-    ma200 = tinh_ma(df_gia, 200)
-    rsi_series = tinh_rsi(df_gia)
-    macd_data  = tinh_macd(df_gia)
-    bb         = tinh_bollinger(df_gia)
-    tin_hieu   = tao_tin_hieu_chung(df_gia)
-
+ 
+    ma20_s  = tinh_ma(df_gia, 20)
+    ma50_s  = tinh_ma(df_gia, 50)
+    ma200_s = tinh_ma(df_gia, 200)
+    rsi_s   = tinh_rsi(df_gia)
+    macd_d  = tinh_macd(df_gia)
+    bb      = tinh_bollinger(df_gia)
+    tin_hieu = tao_tin_hieu_chung(df_gia)
+ 
     def safe(val):
         return round(float(val), 2) if not pd.isna(val) else None
-
+ 
     return {
-        "ma": {
-            "MA20":  safe(ma20.iloc[-1]),
-            "MA50":  safe(ma50.iloc[-1]),
-            "MA200": safe(ma200.iloc[-1]),
-        },
-        "rsi":     round(float(rsi_series.iloc[-1]), 2),
-        "macd": {
-            "macd":      round(float(macd_data['macd'].iloc[-1]), 4),
-            "signal":    round(float(macd_data['signal'].iloc[-1]), 4),
-            "histogram": round(float(macd_data['histogram'].iloc[-1]), 4),
-        },
-        "bollinger": {
-            "upper":  safe(bb['upper'].iloc[-1]),
-            "middle": safe(bb['middle'].iloc[-1]),
-            "lower":  safe(bb['lower'].iloc[-1]),
-        },
-        "tin_hieu":        tin_hieu['tin_hieu'],
-        "so_tin_hieu_mua": tin_hieu['so_tin_hieu_mua'],
-        "giai_thich":      tin_hieu['giai_thich'],
-        "rsi_series": rsi_series.dropna().tolist(),
+        "rsi":               round(float(rsi_s.iloc[-1]), 2),
+        "macd":              round(float(macd_d['macd'].iloc[-1]), 4),
+        "signal":            round(float(macd_d['signal'].iloc[-1]), 4),
+        "histogram":         round(float(macd_d['histogram'].iloc[-1]), 4),
+        "ma20":              safe(ma20_s.iloc[-1]),
+        "ma50":              safe(ma50_s.iloc[-1]),
+        "ma200":             safe(ma200_s.iloc[-1]),
+        "bollinger_upper":   safe(bb['upper'].iloc[-1]),
+        "bollinger_middle":  safe(bb['middle'].iloc[-1]),
+        "bollinger_lower":   safe(bb['lower'].iloc[-1]),
+        "tin_hieu":          tin_hieu['tin_hieu'],
+        "so_tin_hieu_mua":   tin_hieu['so_tin_hieu_mua'],
+        "giai_thich":        tin_hieu['giai_thich'],
+ 
+        "rsi_series":        rsi_s.dropna().tolist(),
+        "macd_series":       macd_d['macd'].dropna().tolist(),
+        "signal_series":     macd_d['signal'].dropna().tolist(),
+        "bollinger_upper_series":  bb['upper'].dropna().tolist(),
+        "bollinger_middle_series": bb['middle'].dropna().tolist(),
+        "bollinger_lower_series":  bb['lower'].dropna().tolist(),
     }
+ 
