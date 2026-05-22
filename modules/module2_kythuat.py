@@ -2,7 +2,9 @@ import pandas as pd
 
 # Tính đường trung bình động (Moving Average).
 def tinh_ma(df_gia: pd.DataFrame, period: int) -> pd.Series:
-    return df_gia['close'].rolling(window=period).mean()
+    ma = df_gia['close'].rolling(window=period).mean()
+    ma.name = f"MA{period}" 
+    return ma
 
 def tao_tin_hieu_ma(df_gia: pd.DataFrame) -> str:
     # Quy tắc:
@@ -29,6 +31,7 @@ def tinh_rsi(df_gia: pd.DataFrame, period: int = 14) -> pd.Series:
     loss = -chenh_lech.where(chenh_lech < 0, 0)
     avg_gain = gain.rolling(window=period).mean()
     avg_loss = loss.rolling(window=period).mean()
+    avg_loss = avg_loss.replace(0, 1e-10)
     rs = avg_gain / avg_loss
     return 100 - (100 / (1 + rs))
 
@@ -113,35 +116,39 @@ def tao_tin_hieu_chung(df_gia: pd.DataFrame) -> dict:
     }
 
 def tom_tat_module2(df_gia: pd.DataFrame) -> dict:
-    #Trả về dict đúng data contract để Flask route dùng.    
     assert len(df_gia) >= 20, f"Cần ít nhất 20 ngày dữ liệu, chỉ có {len(df_gia)}"
     assert 'close' in df_gia.columns, "DataFrame thiếu cột 'close'"
-    ma20  = tinh_ma(df_gia, 20).iloc[-1]
-    ma50  = tinh_ma(df_gia, 50).iloc[-1]
-    ma200 = tinh_ma(df_gia, 200).iloc[-1]
-    rsi   = tinh_rsi(df_gia).iloc[-1]
-    macd  = tinh_macd(df_gia)
-    bb    = tinh_bollinger(df_gia)
-    tin_hieu = tao_tin_hieu_chung(df_gia)
+
+    ma20  = tinh_ma(df_gia, 20)
+    ma50  = tinh_ma(df_gia, 50)
+    ma200 = tinh_ma(df_gia, 200)
+    rsi_series = tinh_rsi(df_gia)
+    macd_data  = tinh_macd(df_gia)
+    bb         = tinh_bollinger(df_gia)
+    tin_hieu   = tao_tin_hieu_chung(df_gia)
+
+    def safe(val):
+        return round(float(val), 2) if not pd.isna(val) else None
 
     return {
         "ma": {
-            "MA20":  round(ma20, 2)  if not pd.isna(ma20)  else None,
-            "MA50":  round(ma50, 2)  if not pd.isna(ma50)  else None,
-            "MA200": round(ma200, 2) if not pd.isna(ma200) else None,
+            "MA20":  safe(ma20.iloc[-1]),
+            "MA50":  safe(ma50.iloc[-1]),
+            "MA200": safe(ma200.iloc[-1]),
         },
-        "rsi": round(float(rsi), 2),
+        "rsi":     round(float(rsi_series.iloc[-1]), 2),
         "macd": {
-            "macd":      round(float(macd['macd'].iloc[-1]), 4),
-            "signal":    round(float(macd['signal'].iloc[-1]), 4),
-            "histogram": round(float(macd['histogram'].iloc[-1]), 4),
+            "macd":      round(float(macd_data['macd'].iloc[-1]), 4),
+            "signal":    round(float(macd_data['signal'].iloc[-1]), 4),
+            "histogram": round(float(macd_data['histogram'].iloc[-1]), 4),
         },
         "bollinger": {
-            "upper":  round(float(bb['upper'].iloc[-1]), 2),
-            "middle": round(float(bb['middle'].iloc[-1]), 2),
-            "lower":  round(float(bb['lower'].iloc[-1]), 2),
+            "upper":  safe(bb['upper'].iloc[-1]),
+            "middle": safe(bb['middle'].iloc[-1]),
+            "lower":  safe(bb['lower'].iloc[-1]),
         },
-        "tin_hieu":         tin_hieu['tin_hieu'],
-        "so_tin_hieu_mua":  tin_hieu['so_tin_hieu_mua'],
-        "giai_thich":       tin_hieu['giai_thich'],
+        "tin_hieu":        tin_hieu['tin_hieu'],
+        "so_tin_hieu_mua": tin_hieu['so_tin_hieu_mua'],
+        "giai_thich":      tin_hieu['giai_thich'],
+        "rsi_series": rsi_series.dropna().tolist(),
     }

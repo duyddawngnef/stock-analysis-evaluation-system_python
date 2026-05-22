@@ -14,11 +14,9 @@ from modules.module2_kythuat import (
     tom_tat_module2,
 )
 
-
 # ============================================================
 # FIXTURES — Dữ liệu dùng chung cho nhiều test
 # ============================================================
-
 @pytest.fixture
 def df_250_ngay():
     """DataFrame 250 ngày — đủ để tính MA200."""
@@ -53,11 +51,9 @@ def df_chi_giam():
 def df_gia_tang_manh():
     """DataFrame xu hướng tăng rõ — để test tín hiệu MUA."""
     np.random.seed(99)
-    # Giá tăng đều + nhiễu nhỏ, đảm bảo MA20 > MA50 > MA200
     trend = np.linspace(30, 80, 250)
     noise = np.random.randn(250) * 0.3
     return pd.DataFrame({'close': trend + noise})
-
 
 # ============================================================
 # NHÓM 1: tinh_ma()
@@ -88,9 +84,7 @@ class TestTinhMA:
         close = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
         df = pd.DataFrame({'close': close})
         result = tinh_ma(df, 5)
-        # MA5 tại vị trí index 4 = (10+20+30+40+50)/5 = 30
         assert result.iloc[4] == pytest.approx(30.0)
-        # MA5 tại vị trí index 9 = (60+70+80+90+100)/5 = 80
         assert result.iloc[9] == pytest.approx(80.0)
 
     def test_ma200_nan_khi_chua_du_data(self, df_30_ngay):
@@ -104,6 +98,12 @@ class TestTinhMA:
             result = tinh_ma(df_250_ngay, period)
             assert isinstance(result, pd.Series)
             assert len(result) == len(df_250_ngay)
+
+    def test_ma_co_ten_dung_format(self, df_250_ngay):
+        """Series trả về phải có .name = 'MA{period}' để dễ nhận diện."""
+        assert tinh_ma(df_250_ngay, 20).name  == "MA20"
+        assert tinh_ma(df_250_ngay, 50).name  == "MA50"
+        assert tinh_ma(df_250_ngay, 200).name == "MA200"
 
 # ============================================================
 # NHÓM 2: tinh_rsi()
@@ -135,7 +135,7 @@ class TestTinhRSI:
         assert not pd.isna(result)
 
     def test_rsi_khong_inf(self, df_chi_tang):
-        """RSI không được là inf dù avg_loss = 0."""
+        """RSI không được là inf dù avg_loss = 0 (nhờ replace 1e-10)."""
         result = tinh_rsi(df_chi_tang).iloc[-1]
         assert not np.isinf(result)
 
@@ -144,6 +144,12 @@ class TestTinhRSI:
         rsi_default = tinh_rsi(df_250_ngay)
         rsi_14 = tinh_rsi(df_250_ngay, period=14)
         pd.testing.assert_series_equal(rsi_default, rsi_14)
+
+    def test_rsi_avg_loss_zero_khong_gay_inf(self, df_chi_tang):
+        """avg_loss=0 được replace bằng 1e-10, RSI phải rất gần 100 không phải inf."""
+        series = tinh_rsi(df_chi_tang).dropna()
+        assert not series.isin([float('inf'), float('-inf')]).any()
+        assert (series <= 100.0).all()
 
 # ============================================================
 # NHÓM 3: tinh_macd()
@@ -185,7 +191,7 @@ class TestTinhMACD:
         result = tinh_macd(df_250_ngay)
         for key in ['macd', 'signal', 'histogram']:
             assert len(result[key]) == len(df_250_ngay)
-            
+
 # ============================================================
 # NHÓM 4: tinh_bollinger()
 # ============================================================
@@ -216,10 +222,10 @@ class TestTinhBollinger:
         assert (result['middle'][valid] >= result['lower'][valid]).all()
 
     def test_middle_bang_ma20(self, df_250_ngay):
-        """middle của Bollinger phải bằng MA20."""
+        """middle của Bollinger phải bằng MA20 (bỏ qua .name khác nhau)."""
         bb = tinh_bollinger(df_250_ngay, period=20)
         ma20 = tinh_ma(df_250_ngay, 20)
-        pd.testing.assert_series_equal(bb['middle'], ma20)
+        pd.testing.assert_series_equal(bb['middle'], ma20, check_names=False)
 
     def test_bollinger_period_va_std_tuy_chinh(self, df_250_ngay):
         """Có thể truyền period và std tùy chỉnh."""
@@ -293,7 +299,7 @@ class TestTomTatModule2:
         assert isinstance(result, dict)
 
     def test_co_du_cac_key_data_contract(self, df_250_ngay):
-        """Phải có đủ các key theo data contract."""
+        """Phải có đủ các key theo data contract — bao gồm rsi_series mới."""
         result = tom_tat_module2(df_250_ngay)
         assert 'ma' in result
         assert 'rsi' in result
@@ -302,6 +308,7 @@ class TestTomTatModule2:
         assert 'tin_hieu' in result
         assert 'so_tin_hieu_mua' in result
         assert 'giai_thich' in result
+        assert 'rsi_series' in result   # ✅ MỚI — key bổ sung cho chart TV4
 
     def test_ma_co_du_3_key(self, df_250_ngay):
         """result['ma'] phải có MA20, MA50, MA200."""
@@ -325,11 +332,9 @@ class TestTomTatModule2:
         assert 'lower' in result['bollinger']
 
     def test_tat_ca_gia_tri_la_python_native(self, df_250_ngay):
-        """Tất cả giá trị số phải là Python float/int, không phải np.float64.
-        Lý do: Flask jsonify cần Python native types."""
+        """Tất cả giá trị phải JSON serializable — không có np.float64."""
         import json
         result = tom_tat_module2(df_250_ngay)
-        # Nếu có np.float64 thì json.dumps sẽ lỗi trong một số môi trường
         try:
             json.dumps(result)
         except TypeError as e:
@@ -359,11 +364,9 @@ class TestTomTatModule2:
     def test_lam_tron_2_chu_so_thap_phan(self, df_250_ngay):
         """Các giá trị float phải được làm tròn (không quá nhiều chữ số)."""
         result = tom_tat_module2(df_250_ngay)
-        # MA20 làm tròn 2 chữ số
         ma20 = result['ma']['MA20']
         if ma20 is not None:
             assert ma20 == round(ma20, 2)
-        # RSI làm tròn 2 chữ số
         assert result['rsi'] == round(result['rsi'], 2)
 
     def test_tin_hieu_hop_le(self, df_250_ngay):
@@ -388,3 +391,19 @@ class TestTomTatModule2:
         assert result1['rsi'] == result2['rsi']
         assert result1['tin_hieu'] == result2['tin_hieu']
         assert result1['ma']['MA20'] == result2['ma']['MA20']
+
+    def test_rsi_series_la_list(self, df_250_ngay):
+        """rsi_series phải là list (để JSON serialize và vẽ chart được)."""
+        result = tom_tat_module2(df_250_ngay)
+        assert isinstance(result['rsi_series'], list)
+
+    def test_rsi_series_khong_rong(self, df_250_ngay):
+        """rsi_series không được rỗng khi có đủ data."""
+        result = tom_tat_module2(df_250_ngay)
+        assert len(result['rsi_series']) > 0
+
+    def test_rsi_series_gia_tri_hop_le(self, df_250_ngay):
+        """Mọi phần tử trong rsi_series phải nằm trong [0, 100]."""
+        result = tom_tat_module2(df_250_ngay)
+        for val in result['rsi_series']:
+            assert 0 <= val <= 100, f"Giá trị RSI không hợp lệ: {val}"
