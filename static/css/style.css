@@ -212,7 +212,7 @@ a:hover { color: var(--color-primary-dark); }
   justify-content: center;
   border-radius: inherit;
   z-index: 10;
-  backdrop-filter: blur(2px);
+  /* backdrop-filter: blur(2px); */
 }
 
 /* ---------------------------------------------------------------------------
