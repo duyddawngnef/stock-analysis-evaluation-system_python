@@ -1,6 +1,5 @@
 """
 Test cho Module 3 — Phân tích cơ bản
-Người phụ trách: TV3
 """
 
 import pytest
