@@ -41,7 +41,7 @@ def chuan_hoa_du_lieu(df: pd.DataFrame) -> pd.DataFrame:
     """
     Chuẩn hóa DataFrame giá OHLCV thô từ vnstock.
 
-    Các bước (theo hướng dẫn tuần 1 + docs/BUGS.md):
+    Các bước
     1. Đổi tên cột về lowercase chuẩn (date, open, high, low, close, volume).
     2. Map tên cột vnstock về tên chuẩn (closePrice → close, v.v.).
     3. Ép kiểu: date → datetime64, open/high/low/close → float.
@@ -75,7 +75,8 @@ def chuan_hoa_du_lieu(df: pd.DataFrame) -> pd.DataFrame:
         "matchvolume": "volume",
         "time": "date",
     }
-    df = df.rename(columns={k: v for k, v in col_map.items() if k in df.columns})
+    df = df.rename(
+        columns={k: v for k, v in col_map.items() if k in df.columns})
 
     # Bước 3: Ép kiểu date
     if "date" in df.columns:
@@ -142,16 +143,18 @@ def lay_thong_tin_co_phieu(ma_cp: str) -> dict:
         # Lấy thông tin công ty từ listing
         try:
             df_listing = stock.listing.symbols_by_exchange()
-            print(f"[lay_thong_tin_co_phieu] Cột listing: {list(df_listing.columns)}")
+            print(
+                f"[lay_thong_tin_co_phieu] Cột listing: {list(df_listing.columns)}")
             row = df_listing[df_listing["ticker"] == ma_cp]
             if not row.empty:
                 r = row.iloc[0]
                 ten_cong_ty = str(r.get("organ_name", r.get("organName", "")))
                 nganh = str(r.get("icb_name3", r.get("icbName3",
-                             r.get("industry_name", r.get("industryName", "")))))
+                                                     r.get("industry_name", r.get("industryName", "")))))
                 san = str(r.get("exchange", r.get("comGroupCode", "")))
         except Exception as e:
-            print(f"[lay_thong_tin_co_phieu] Không lấy được listing cho {ma_cp}: {e}")
+            print(
+                f"[lay_thong_tin_co_phieu] Không lấy được listing cho {ma_cp}: {e}")
 
         # Lấy giá từ lịch sử gần nhất (FIX #4: dùng ngày thực tế, không cứng ngày tương lai)
         gia_hien_tai = 0.0
@@ -162,19 +165,22 @@ def lay_thong_tin_co_phieu(ma_cp: str) -> dict:
         try:
             ngay_hom_nay = datetime.now().strftime("%Y-%m-%d")
             df_hist = stock.quote.history(start="2024-01-01", end=ngay_hom_nay)
-            print(f"[lay_thong_tin_co_phieu] Cột history: {list(df_hist.columns)}")
+            print(
+                f"[lay_thong_tin_co_phieu] Cột history: {list(df_hist.columns)}")
             df_hist = chuan_hoa_du_lieu(df_hist)
             if len(df_hist) >= 2:
                 gia_hien_tai = float(df_hist["close"].iloc[-1])
                 gia_truoc = float(df_hist["close"].iloc[-2])
                 if gia_truoc > 0:
-                    thay_doi_phan_tram = round((gia_hien_tai - gia_truoc) / gia_truoc * 100, 2)
+                    thay_doi_phan_tram = round(
+                        (gia_hien_tai - gia_truoc) / gia_truoc * 100, 2)
                 khoi_luong = int(df_hist["volume"].iloc[-1])
             elif len(df_hist) == 1:
                 gia_hien_tai = float(df_hist["close"].iloc[-1])
                 khoi_luong = int(df_hist["volume"].iloc[-1])
         except Exception as e:
-            print(f"[lay_thong_tin_co_phieu] Không lấy được history cho {ma_cp}: {e}")
+            print(
+                f"[lay_thong_tin_co_phieu] Không lấy được history cho {ma_cp}: {e}")
 
         # Kiểm tra có lấy được dữ liệu không
         if not ten_cong_ty and gia_hien_tai == 0.0:
@@ -301,8 +307,10 @@ def lay_bao_cao_tai_chinh(ma_cp: str) -> dict:
         df_lctt = stock.finance.cash_flow(period="quarter", lang="vi")
 
         # In index để debug — theo ghi chú pitfall BCTC trong docs/BUGS.md
-        print(f"[lay_bao_cao_tai_chinh] KQKD index (5 đầu): {list(df_kqkd.index)[:5]}")
-        print(f"[lay_bao_cao_tai_chinh] BCĐKT index (5 đầu): {list(df_bcd.index)[:5]}")
+        print(
+            f"[lay_bao_cao_tai_chinh] KQKD index (5 đầu): {list(df_kqkd.index)[:5]}")
+        print(
+            f"[lay_bao_cao_tai_chinh] BCĐKT index (5 đầu): {list(df_bcd.index)[:5]}")
 
         result = {
             "bang_can_doi_ke_toan": df_bcd,
