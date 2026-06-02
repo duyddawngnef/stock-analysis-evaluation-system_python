@@ -68,7 +68,9 @@ def ghi_cache(cache_file: str, data) -> None:
         os.makedirs(parent_dir, exist_ok=True)
 
     with open(cache_file, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2, default=_json_serializer)
+        # viết dữ liệu data vào file f
+        json.dump(data, f, ensure_ascii=False,
+                  indent=2, default=_json_serializer)
 
 
 def _json_serializer(obj):
