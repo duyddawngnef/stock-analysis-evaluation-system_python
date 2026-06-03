@@ -1,0 +1,1927 @@
+{
+  "bang_can_doi_ke_toan": {
+    "index": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121
+    ],
+    "columns": [
+      "item",
+      "item_en",
+      "item_id",
+      "2026-Q1",
+      "2025-Q4",
+      "2025-Q3",
+      "2025-Q2"
+    ],
+    "data": [
+      [
+        "TÀI SẢN NGẮN HẠN",
+        "CURRENT ASSETS",
+        "current_assets",
+        10817207632647.0,
+        9657061718516.0,
+        8632419217878.0,
+        8622052996160.0
+      ],
+      [
+        "Tiền và tương đương tiền",
+        "Cash and cash equivalents",
+        "cash_and_cash_equivalents",
+        1426896842436.0,
+        1821273980243.0,
+        1403165022930.0,
+        1672152087940.0
+      ],
+      [
+        "Tiền",
+        "Cash",
+        "cash",
+        1279257913635.0,
+        1700983804175.0,
+        1229600273978.0,
+        1314678343460.0
+      ],
+      [
+        "Các khoản tương đương tiền",
+        "Cash equivalents",
+        "cash_equivalents",
+        147638928801.0,
+        120290176068.0,
+        173564748952.0,
+        357473744480.0
+      ],
+      [
+        "Đầu tư ngắn hạn",
+        "Short-term investments",
+        "short_term_investments",
+        1702419108078.0,
+        688956087159.0,
+        627133217812.0,
+        944255273160.0
+      ],
+      [
+        "Đầu tư ngắn hạn",
+        "Short-term investments",
+        "short_term_investments",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Dự phòng giảm giá",
+        "Provision for diminution",
+        "provision_for_diminution",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Các khoản phải thu",
+        "Accounts receivable",
+        "accounts_receivable",
+        5790494293584.0,
+        5320195613823.0,
+        4649562756776.0,
+        4313259750500.0
+      ],
+      [
+        "Phải thu khách hàng",
+        "Trade accounts receivable",
+        "trade_accounts_receivable",
+        4802524877280.0,
+        4313704304677.0,
+        3242448384822.0,
+        3118693853340.0
+      ],
+      [
+        "Trả trước người bán",
+        "Prepayments to suppliers",
+        "prepayments_to_suppliers",
+        326557273653.0,
+        208476540204.0,
+        475103799686.0,
+        280503694520.0
+      ],
+      [
+        "Phải thu nội bộ",
+        "Intercompany receivables",
+        "intercompany_receivables",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Phải thu hợp đồng xây dựng đang thực hiện",
+        "Construction contract in progress receivables",
+        "construction_contract_in_progress_receivables",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Phải thu khác",
+        "Other receivables",
+        "other_receivables",
+        726694022262.0,
+        863843391280.0,
+        1009303492084.0,
+        987905419060.0
+      ],
+      [
+        "Dự phòng nợ khó đòi",
+        "Provision for doubtful debts",
+        "provision_for_doubtful_debts",
+        -65281879611.0,
+        -65828622338.0,
+        -77292919816.0,
+        -73843216420.0
+      ],
+      [
+        "Hàng tồn kho, ròng",
+        "Inventories, Net",
+        "inventories_net",
+        1515775719939.0,
+        1536520885112.0,
+        1644384386958.0,
+        1435300069780.0
+      ],
+      [
+        "Hàng tồn kho",
+        "Inventories",
+        "inventories",
+        1655676586941.0,
+        1675996953160.0,
+        1781552539720.0,
+        1571853988460.0
+      ],
+      [
+        "Dự phòng giảm giá hàng tồn kho",
+        "Provision for decline in inventories",
+        "provision_for_decline_in_inventories",
+        -139900867002.0,
+        -139476068048.0,
+        -137168152762.0,
+        -136553918680.0
+      ],
+      [
+        "Tài sản lưu động khác",
+        "Other current assets",
+        "other_current_assets",
+        381621668610.0,
+        290115152179.0,
+        308173833402.0,
+        257085814780.0
+      ],
+      [
+        "Chi phí trả trước ngắn hạn",
+        "Short-term prepayments",
+        "short_term_prepayments",
+        83290759968.0,
+        27912403568.0,
+        96516960060.0,
+        82933863480.0
+      ],
+      [
+        "Thuế GTGT được khấu trừ",
+        "VAT to be claimed",
+        "vat_to_be_claimed",
+        297044910630.0,
+        260625324804.0,
+        210066300172.0,
+        172535655840.0
+      ],
+      [
+        "Phải thu thuế khác",
+        "Other taxes receivable",
+        "other_taxes_receivable",
+        1285998012.0,
+        1577423807.0,
+        1590573170.0,
+        1616295460.0
+      ],
+      [
+        "Tài sản lưu động khác",
+        "Other current assets",
+        "other_current_assets",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "TÀI SẢN DÀI HẠN",
+        "LONG-TERM ASSETS",
+        "long_term_assets",
+        18724993714869.0,
+        18652800964234.0,
+        18283678317446.0,
+        16152409289620.0
+      ],
+      [
+        "Phải thu dài hạn",
+        "Long-term trade receivables",
+        "long_term_trade_receivables",
+        227473562550.0,
+        227517444064.0,
+        237240244988.0,
+        236381959420.0
+      ],
+      [
+        "Phải thu khách hàng dài hạn",
+        "Long-term trade receivables from customers",
+        "long_term_trade_receivables_from_customers",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Phải thu nội bộ dài hạn",
+        "Long-term intercompany receivables",
+        "long_term_intercompany_receivables",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Phải thu dài hạn khác",
+        "Other long-term receivables",
+        "other_long_term_receivables",
+        227473562550.0,
+        227517444064.0,
+        237240244988.0,
+        236381959420.0
+      ],
+      [
+        "Dự phòng phải thu dài hạn",
+        "Provision for doubtful LT receivable",
+        "provision_for_doubtful_lt_receivable",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Tài sản cố định",
+        "Fixed assets",
+        "fixed_assets",
+        14467983204714.0,
+        14607847812254.0,
+        14813873175712.0,
+        12878138185140.0
+      ],
+      [
+        "GTCL TSCĐ hữu hình",
+        "Tangible fixed assets",
+        "tangible_fixed_assets",
+        14313475094802.0,
+        14452833424755.0,
+        14656004667696.0,
+        12719106685780.0
+      ],
+      [
+        "Nguyên giá TSCĐ hữu hình",
+        "Cost",
+        "cost",
+        29376002062641.0,
+        29180690172632.0,
+        29228537119394.0,
+        26942881566780.0
+      ],
+      [
+        "Khấu hao lũy kế TSCĐ hữu hình",
+        "Accumulated depreciation",
+        "accumulated_depreciation",
+        -15062526967839.0,
+        -14727856747877.0,
+        -14572532451698.0,
+        -14223774881000.0
+      ],
+      [
+        "GTCL tài sản thuê tài chính",
+        "Finance lease assets",
+        "finance_lease_assets",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Nguyên giá tài sản thuê tài chính",
+        "Cost",
+        "cost",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Khấu hao lũy kế tài sản thuê tài chính",
+        "Accumulated depreciation",
+        "accumulated_depreciation",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "GTCL tài sản cố định vô hình",
+        "Intangible fixed assets",
+        "intangible_fixed_assets",
+        154508109912.0,
+        155014387499.0,
+        157868508016.0,
+        159031499360.0
+      ],
+      [
+        "Nguyên giá TSCĐ vô hình",
+        "Cost",
+        "cost",
+        353561105898.0,
+        351582370190.0,
+        352951108392.0,
+        349623859500.0
+      ],
+      [
+        "Khấu hao lũy kế TSCĐ vô hình",
+        "Accumulated depreciation",
+        "accumulated_depreciation",
+        -199052995986.0,
+        -196567982691.0,
+        -195082600376.0,
+        -190592360140.0
+      ],
+      [
+        "Xây dựng cơ bản đang dang dở (trước 2015)",
+        "Construction in progress (before 2015)",
+        "construction_in_progress_before_2015",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Giá trị ròng tài sản đầu tư",
+        "Investment properties",
+        "investment_properties",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Nguyên giá tài sản đầu tư",
+        "Cost",
+        "cost",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Khấu hao lũy kế tài sản đầu tư",
+        "Accumulated depreciation",
+        "accumulated_depreciation",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Đầu tư dài hạn",
+        "Long-term investments",
+        "long_term_investments",
+        812803788771.0,
+        770410778053.0,
+        792033450778.0,
+        743329973420.0
+      ],
+      [
+        "Đầu tư vào các công ty con",
+        "Investments in subsidiaries",
+        "investments_in_subsidiaries",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Đầu tư vào các công ty liên kết",
+        "Investments in associates",
+        "investments_in_associates",
+        812803788771.0,
+        770410778053.0,
+        792033450778.0,
+        743329973420.0
+      ],
+      [
+        "Đầu tư dài hạn khác",
+        "Other long-term investments",
+        "other_long_term_investments",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Dự phòng giảm giá đầu tư dài hạn",
+        "Provision for long-term investments",
+        "provision_for_long_term_investments",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Lợi thế thương mại (trước 2015)",
+        "Goodwill (before 2015)",
+        "goodwill_before_2015",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Tài sản dài hạn khác",
+        "Other long-term assets",
+        "other_long_term_assets",
+        765360708957.0,
+        843085264816.0,
+        705125051648.0,
+        757254669180.0
+      ],
+      [
+        "Trả trước dài hạn",
+        "Long-term prepayments",
+        "long_term_prepayments",
+        483556118877.0,
+        563098028282.0,
+        431828285732.0,
+        486324053840.0
+      ],
+      [
+        "Thuế thu nhập hoãn lại",
+        "Deferred income tax assets",
+        "deferred_income_tax_assets",
+        281804590080.0,
+        279987236534.0,
+        273296765916.0,
+        270930615340.0
+      ],
+      [
+        "Các tài sản dài hạn khác",
+        "Other long-term assets",
+        "other_long_term_assets",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "TỔNG CỘNG TÀI SẢN",
+        "Total Assets",
+        "total_assets",
+        29542201347516.0,
+        28309862682750.0,
+        26916097535324.0,
+        24774462285780.0
+      ],
+      [
+        "NỢ PHẢI TRẢ",
+        "Liabilities",
+        "liabilities",
+        12095429524698.0,
+        11211575733628.0,
+        9752705879936.0,
+        8011811513060.0
+      ],
+      [
+        "Nợ ngắn hạn",
+        "Current liabilities",
+        "current_liabilities",
+        6497449863177.0,
+        6619272245050.0,
+        5267387236504.0,
+        4689471980300.0
+      ],
+      [
+        "Vay ngắn hạn",
+        "Short-term borrowings",
+        "short_term_borrowings",
+        969454913739.0,
+        821033901691.0,
+        493768394242.0,
+        645698972860.0
+      ],
+      [
+        "Phải trả người bán",
+        "Trade accounts payable",
+        "trade_accounts_payable",
+        2282981173044.0,
+        2592727186371.0,
+        1641576807148.0,
+        1646987227020.0
+      ],
+      [
+        "Người mua trả tiền trước",
+        "Advances from customers",
+        "advances_from_customers",
+        78872130012.0,
+        83089405870.0,
+        237643005002.0,
+        94460976920.0
+      ],
+      [
+        "Thuế và các khoản phải trả Nhà nước",
+        "Taxes and other payable to State Budget",
+        "taxes_and_other_payable_to_state_budget",
+        217049750229.0,
+        215170453950.0,
+        181853077808.0,
+        147531207880.0
+      ],
+      [
+        "Phải trả người lao động",
+        "Payable to employees",
+        "payable_to_employees",
+        160291478880.0,
+        320432402764.0,
+        155508579098.0,
+        102886703960.0
+      ],
+      [
+        "Chi phí phải trả",
+        "Accrued expenses",
+        "accrued_expenses",
+        1867548591480.0,
+        1685592637235.0,
+        1714416122088.0,
+        1271385702640.0
+      ],
+      [
+        "Phải trả nội bộ",
+        "Intercompany payables",
+        "intercompany_payables",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Phải trả về xây dựng cơ bản",
+        "Construction contract in progress payables",
+        "construction_contract_in_progress_payables",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Phải trả khác",
+        "Other payables",
+        "other_payables",
+        300341166372.0,
+        256527637178.0,
+        263500648644.0,
+        270322192640.0
+      ],
+      [
+        "Dự phòng các khoản phải trả ngắn hạn",
+        "Provision for ST liabilities",
+        "provision_for_st_liabilities",
+        437553080718.0,
+        431068664816.0,
+        439729918852.0,
+        365828603440.0
+      ],
+      [
+        "Quỹ khen thưởng, phúc lợi",
+        "Bonus and welfare funds",
+        "bonus_and_welfare_funds",
+        170738624784.0,
+        213629955175.0,
+        139390683622.0,
+        144370392940.0
+      ],
+      [
+        "Nợ dài hạn",
+        "Long-term liabilities",
+        "long_term_liabilities",
+        5597979661521.0,
+        4592303488578.0,
+        4485318643432.0,
+        3322339532760.0
+      ],
+      [
+        "Phải trả nhà cung cấp dài hạn",
+        "Long-term trade payables",
+        "long_term_trade_payables",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Phải trả nội bộ dài hạn",
+        "Long-term intercompany payables",
+        "long_term_intercompany_payables",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Phải trả dài hạn khác",
+        "Other long-term payables",
+        "other_long_term_payables",
+        480381911685.0,
+        474918261627.0,
+        476022398604.0,
+        473587384140.0
+      ],
+      [
+        "Vay dài hạn",
+        "Long-term borrowings",
+        "long_term_borrowings",
+        4553125568316.0,
+        3588223884700.0,
+        3613554171422.0,
+        2464109237240.0
+      ],
+      [
+        "Thuế thu nhập hoãn lại",
+        "Deferred income tax liabilities",
+        "deferred_income_tax_liabilities",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Dự phòng trợ cấp thôi việc",
+        "Provision for severance allowances",
+        "provision_for_severance_allowances",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Dự phòng các khoản nợ dài hạn",
+        "Provision for long-term liabilities",
+        "provision_for_long_term_liabilities",
+        390547433406.0,
+        370015601719.0,
+        271703179056.0,
+        268965945680.0
+      ],
+      [
+        "Doanh thu chưa thực hiện",
+        "Deferred revenue",
+        "deferred_revenue",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Quỹ phát triển khoa học công nghệ",
+        "Technology-science development fund",
+        "technology_science_development_fund",
+        142880557677.0,
+        128302621165.0,
+        93095819172.0,
+        85047973480.0
+      ],
+      [
+        "Vốn chủ sở hữu",
+        "Owner's Equity",
+        "owners_equity",
+        17446771822818.0,
+        17098286949122.0,
+        17163391655388.0,
+        16762650772720.0
+      ],
+      [
+        "Vốn và các quỹ",
+        "Capital and reserves",
+        "capital_and_reserves",
+        17446771822818.0,
+        17098286949122.0,
+        17163391655388.0,
+        16762650772720.0
+      ],
+      [
+        "Vốn góp",
+        "Paid-in capital",
+        "paid_in_capital",
+        5562960060000.0,
+        5562960060000.0,
+        5562960060000.0,
+        5562960060000.0
+      ],
+      [
+        "Thặng dư vốn cổ phần",
+        "Share premium",
+        "share_premium",
+        2434086374663.0,
+        2434086374663.0,
+        2434086374663.0,
+        2434086374663.0
+      ],
+      [
+        "Vốn khác",
+        "Owner's other capital",
+        "owners_other_capital",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Cổ phiếu quỹ",
+        "Treasury shares",
+        "treasury_shares",
+        -20948559850.0,
+        -20948559850.0,
+        -20948559850.0,
+        -20948559850.0
+      ],
+      [
+        "Chênh lệch đánh giá lại tài sản",
+        "Differences upon asset revaluation",
+        "differences_upon_asset_revaluation",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Chênh lệch tỷ giá",
+        "Foreign exchange differences",
+        "foreign_exchange_differences",
+        3307499312778.0,
+        3252855556290.0,
+        3302716480834.0,
+        3163357576553.0
+      ],
+      [
+        "Quỹ đầu tư và phát triển",
+        "Investment and development funds",
+        "investment_and_development_funds",
+        4342755081989.0,
+        4320705423029.0,
+        4198533829641.0,
+        4120297242094.0
+      ],
+      [
+        "Quỹ dự phòng tài chính",
+        "Financial reserve funds",
+        "financial_reserve_funds",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Quỹ khác",
+        "Other funds",
+        "other_funds",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Lãi chưa phân phối",
+        "Undistributed earnings",
+        "undistributed_earnings",
+        1557904253329.0,
+        1291401833485.0,
+        1444115081756.0,
+        1264467861919.0
+      ],
+      [
+        "Quỹ hỗ trợ sắp xếp doanh nghiệp",
+        "Enterprise arrangement fund",
+        "enterprise_arrangement_fund",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Vốn Ngân sách nhà nước và quỹ khác",
+        "Budget sources and other funds",
+        "budget_sources_and_other_funds",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Quỹ khen thưởng, phúc lợi (trước 2010)",
+        "Bonus and welfare funds (Before 2010)",
+        "bonus_and_welfare_funds_before_2010",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Vốn ngân sách nhà nước và quỹ khác",
+        "Budget sources and other funds",
+        "budget_sources_and_other_funds",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Lợi ích của cổ đông thiểu số",
+        "Minority interests (Before 2015)",
+        "minority_interests_before_2015",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Tổng cộng nguồn vốn",
+        "Total resource",
+        "total_resource",
+        29542201347516.0,
+        28309862682750.0,
+        26916097535324.0,
+        24774462285780.0
+      ],
+      [
+        "Cổ phiếu ưu đãi",
+        "Preferred shares",
+        "preferred_shares",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Đầu tư nắm giữ đến ngày đáo hạn",
+        "Held-to-maturity investment",
+        "held_to_maturity_investment",
+        1702419108078.0,
+        688956087159.0,
+        627133217812.0,
+        944255273160.0
+      ],
+      [
+        "Vốn kinh doanh ở các đơn vị trực thuộc",
+        "Paid-in capital in wholly-owned subsidiaries",
+        "paid_in_capital_in_wholly_owned_subsidiaries",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Tài sản thiếu cần xử lý",
+        "Shortage of current assets waiting for solution",
+        "shortage_of_current_assets_waiting_for_solution",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Phải thu cho vay ngắn hạn",
+        "Short-term loans receivables",
+        "short_term_loans_receivables",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Giao dịch mua bán lại trái phiếu Chính phủ",
+        "Government bonds purchased for resale",
+        "government_bonds_purchased_for_resale",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Trả trước người bán dài hạn",
+        "Long-term prepayments to suppliers",
+        "long_term_prepayments_to_suppliers",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Phải thu cho vay dài hạn",
+        "Long-term loans receivables",
+        "long_term_loans_receivables",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Tài sản dở dang dài hạn",
+        "Long-term incomplete assets",
+        "long_term_incomplete_assets",
+        2451372449877.0,
+        2203939665047.0,
+        1735406394320.0,
+        1537304502460.0
+      ],
+      [
+        "Chi phí sản xuất, kinh doanh dở dang dài hạn",
+        "Long-term cost of work in progress",
+        "long_term_cost_of_work_in_progress",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Đầu tư nắm giữ đến ngày đáo hạn",
+        "Held-to-maturity investment",
+        "held_to_maturity_investment",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Thiết bị, vật tư, phụ tùng thay thế dài hạn",
+        "Long-term equipment, material and spare parts",
+        "long_term_equipment_material_and_spare_parts",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Doanh thu chưa thực hiện ngắn hạn",
+        "Short-term unrealized revenue",
+        "short_term_unrealized_revenue",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Quỹ bình ổn giá",
+        "Price stabilization fund",
+        "price_stabilization_fund",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Giao dịch mua bán lại trái phiếu chính phủ",
+        "Government bonds purchased for resale",
+        "government_bonds_purchased_for_resale",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Người mua trả tiền trước dài hạn",
+        "Long-term advances from customers",
+        "long_term_advances_from_customers",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Chi phí phải trả dài hạn",
+        "Long-term accrued expenses",
+        "long_term_accrued_expenses",
+        31044190437.0,
+        30843119367.0,
+        30943075178.0,
+        30628992220.0
+      ],
+      [
+        "Phải trả nội bộ về vốn kinh doanh",
+        "Intra-company payables for operating capital received",
+        "intra_company_payables_for_operating_capital_received",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Trái phiếu chuyển đổi",
+        "Convertible bonds",
+        "convertible_bonds",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Cổ phiếu ưu đãi",
+        "Preferred shares",
+        "preferred_shares",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Cổ phiếu phổ thông",
+        "Common shares",
+        "common_shares",
+        5562960060000.0,
+        5562960060000.0,
+        5562960060000.0,
+        5562960060000.0
+      ],
+      [
+        "Quyền chọn chuyển đổi trái phiếu",
+        "Conversion options on convertible bonds",
+        "conversion_options_on_convertible_bonds",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "LNST chưa phân phối lũy kế đến cuối kỳ trước",
+        "Beginning accumulated undistributed earnings",
+        "beginning_accumulated_undistributed_earnings",
+        1291401833485.0,
+        743801895048.0,
+        1021741898048.0,
+        1021741898048.0
+      ],
+      [
+        "LNST chưa phân phối kỳ này",
+        "Current period undistributed earnings",
+        "current_period_undistributed_earnings",
+        266502419844.0,
+        547599938437.0,
+        422373183708.0,
+        242725963871.0
+      ],
+      [
+        "Xây dựng cơ bản đang dở dang",
+        "Construction in progress",
+        "construction_in_progress",
+        2451372449877.0,
+        2203939665047.0,
+        1735406394320.0,
+        1537304502460.0
+      ],
+      [
+        "Lợi thế thương mại",
+        "Goodwill",
+        "goodwill",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Lợi ích cổ đông không kiểm soát",
+        "Minority interests",
+        "minority_interests",
+        262515299909.0,
+        257226261505.0,
+        241928388344.0,
+        238430217341.0
+      ],
+      [
+        "Nguồn kinh phí đã hình thành TSCĐ",
+        "Funds used for fixed asset acquisitions",
+        "funds_used_for_fixed_asset_acquisitions",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ]
+  },
+  "kqkd": {
+    "index": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ],
+    "columns": [
+      "item",
+      "item_en",
+      "item_id",
+      "2026-Q1",
+      "2025-Q4",
+      "2025-Q3",
+      "2025-Q2"
+    ],
+    "data": [
+      [
+        "Doanh thu bán hàng và cung cấp dịch vụ",
+        "Sales",
+        "sales",
+        3401070967384.0,
+        4369482168459.0,
+        2570709345978.0,
+        2447439409230.0
+      ],
+      [
+        "Các khoản giảm trừ doanh thu",
+        "Sales deductions",
+        "sales_deductions",
+        0.0,
+        -23748893615.0,
+        -66133819.0,
+        -174773964.0
+      ],
+      [
+        "Doanh thu thuần",
+        "Net sales",
+        "net_sales",
+        3401070967384.0,
+        4345733274844.0,
+        2570643212159.0,
+        2447264635266.0
+      ],
+      [
+        "Giá vốn hàng bán",
+        "Cost of sales",
+        "cost_of_sales",
+        -2762992778988.0,
+        -3673895261689.0,
+        -1961273018254.0,
+        -1927084127593.0
+      ],
+      [
+        "Lợi nhuận gộp",
+        "Gross Profit",
+        "gross_profit",
+        638078188396.0,
+        671838013155.0,
+        609370193905.0,
+        520180507673.0
+      ],
+      [
+        "Doanh thu hoạt động tài chính",
+        "Financial income",
+        "financial_income",
+        97923058604.0,
+        70473609709.0,
+        40482507733.0,
+        41555960297.0
+      ],
+      [
+        "Chi phí tài chính",
+        "Financial expenses",
+        "financial_expenses",
+        -156330090768.0,
+        -84236656131.0,
+        -97873117144.0,
+        -95076467757.0
+      ],
+      [
+        "Chi phí lãi vay",
+        "Interest expenses",
+        "interest_expenses",
+        -66454799676.0,
+        -45205184542.0,
+        -46373429709.0,
+        -46970182377.0
+      ],
+      [
+        "Chi phí bán hàng",
+        "Selling expenses",
+        "selling_expenses",
+        -4952432112.0,
+        -23306541420.0,
+        -10277910016.0,
+        -6056872385.0
+      ],
+      [
+        "Chi phí quản lý doanh nghiệp",
+        "General and admin expenses",
+        "general_and_admin_expenses",
+        -201624869292.0,
+        -296429431286.0,
+        -198036011746.0,
+        -202610501643.0
+      ],
+      [
+        "Lãi/(lỗ) từ hoạt động kinh doanh",
+        "Operating profit/(loss)",
+        "operating_profit_loss",
+        411214432468.0,
+        399595212696.0,
+        378391829397.0,
+        273640828607.0
+      ],
+      [
+        "Thu nhập khác",
+        "Other incomes",
+        "other_incomes",
+        628892712.0,
+        130321716064.0,
+        297769255.0,
+        37706708557.0
+      ],
+      [
+        "Chi phí khác",
+        "Other expenses",
+        "other_expenses",
+        -16017034496.0,
+        -31312989232.0,
+        -12241285077.0,
+        9842344960.0
+      ],
+      [
+        "Thu nhập khác, ròng",
+        "Net other income/(expenses)",
+        "net_other_income_expenses",
+        -15388141784.0,
+        99008726832.0,
+        -11943515822.0,
+        47549053517.0
+      ],
+      [
+        "Lãi/(lỗ) từ công ty liên doanh",
+        "Income from investments in other entities",
+        "income_from_investments_in_other_entities",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Lãi/(lỗ) trước thuế",
+        "Net accounting profit/(loss) before tax",
+        "net_accounting_profit_loss_before_tax",
+        395826290684.0,
+        498603939528.0,
+        366448313575.0,
+        321189882124.0
+      ],
+      [
+        "Thuế thu nhập doanh nghiệp - hiện thời",
+        "Business income tax - current",
+        "business_income_tax_current",
+        -95434321828.0,
+        -128099999890.0,
+        -89022931669.0,
+        -76466066712.0
+      ],
+      [
+        "Thuế thu nhập doanh nghiệp - hoãn lại",
+        "Business income tax - deferred",
+        "business_income_tax_deferred",
+        -341362316.0,
+        8105703830.0,
+        -318151734.0,
+        5169823644.0
+      ],
+      [
+        "Chi phí thuế thu nhập doanh nghiệp",
+        "Corporate income tax expenses",
+        "corporate_income_tax_expenses",
+        -95775684144.0,
+        -119994296060.0,
+        -89341083403.0,
+        -71296243068.0
+      ],
+      [
+        "Lãi/(lỗ) thuần sau thuế",
+        "Net profit/(loss) after tax",
+        "net_profit_loss_after_tax",
+        300050606540.0,
+        378609643468.0,
+        277107230172.0,
+        249893639056.0
+      ],
+      [
+        "Lợi ích của cổ đông thiểu số",
+        "Minority interests",
+        "minority_interests",
+        -6105611140.0,
+        13788389366.0,
+        -1139131257.0,
+        10204938599.0
+      ],
+      [
+        "Lợi nhuận của Cổ đông của Công ty mẹ",
+        "Attributable to parent company",
+        "attributable_to_parent_company",
+        306156217680.0,
+        364821254102.0,
+        278246361429.0,
+        239688700457.0
+      ],
+      [
+        "Lãi cơ bản trên cổ phiếu (VND)",
+        "EPS basic (VND)",
+        "eps_basic_vnd",
+        519.0,
+        446.0,
+        459.0,
+        362.0
+      ],
+      [
+        "Lãi trên cổ phiếu pha loãng (VND)",
+        "EPS diluted (VND)",
+        "eps_diluted_vnd",
+        519.0,
+        0.0,
+        459.0,
+        0.0
+      ],
+      [
+        "Lãi/(lỗ) từ công ty liên doanh (từ năm 2015)",
+        "Gain/(loss) from joint ventures (from 2015)",
+        "gain_loss_from_joint_ventures_from_2015",
+        38120577640.0,
+        61256218669.0,
+        34726166665.0,
+        15648202422.0
+      ]
+    ]
+  },
+  "luu_chuyen_tien_te": {
+    "index": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40
+    ],
+    "columns": [
+      "item",
+      "item_en",
+      "item_id",
+      "2026-Q1",
+      "2025-Q4",
+      "2025-Q3",
+      "2025-Q2"
+    ],
+    "data": [
+      [
+        "Lợi nhuận/(lỗ) trước thuế",
+        "Net profit/(loss) before tax",
+        "net_profit_loss_before_tax",
+        395826290684.0,
+        498603939528.0,
+        370423011491.0,
+        321189882124.0
+      ],
+      [
+        "Khấu hao TSCĐ và BĐSĐT",
+        "Depreciation and amortization",
+        "depreciation_and_amortization",
+        269229111120.0,
+        223883092975.0,
+        241013877912.0,
+        187947024603.0
+      ],
+      [
+        "Chi phí dự phòng",
+        "Provisions",
+        "provisions",
+        20244408136.0,
+        84282260387.0,
+        70268648490.0,
+        26582721467.0
+      ],
+      [
+        "Lãi/lỗ chênh lệch tỷ giá hối đoái do đánh giá lại các khoản mục tiền tệ có gốc ngoại tệ",
+        "Unrealized foreign exchange gain/(loss)",
+        "unrealized_foreign_exchange_gain_loss",
+        -4149787732.0,
+        -27527391198.0,
+        -5722957046.0,
+        77071861.0
+      ],
+      [
+        "Lãi/(lỗ) từ thanh lý tài sản cố định",
+        "Profit/loss from liquidating fixed assets",
+        "profit_loss_from_liquidating_fixed_assets",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "(Lãi)/lỗ từ hoạt động đầu tư",
+        "Profit/loss from investing activities",
+        "profit_loss_from_investing_activities",
+        -68798631020.0,
+        -53444703268.0,
+        -48819367559.0,
+        -63267844447.0
+      ],
+      [
+        "Chi phí lãi vay",
+        "Interest expense",
+        "interest_expense",
+        66454799676.0,
+        45205184542.0,
+        47130019305.0,
+        46970182377.0
+      ],
+      [
+        "Thu lãi và cổ tức",
+        "Interest income and dividend",
+        "interest_income_and_dividend",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Lợi nhuận/(lỗ) từ hoạt động kinh doanh trước những thay đổi vốn lưu động",
+        "Operating profit/(loss) before changes in Working Capital",
+        "operating_profit_loss_before_changes_in_working_capital",
+        693745037035.0,
+        809908972303.0,
+        685400253517.0,
+        528532889365.0
+      ],
+      [
+        "(Tăng)/giảm các khoản phải thu",
+        "(Increase)/decrease in receivables",
+        "increase_decrease_in_receivables",
+        -584927346712.0,
+        -674054520931.0,
+        -321427795552.0,
+        -606213641314.0
+      ],
+      [
+        "(Tăng)/giảm hàng tồn kho",
+        "(Increase)/decrease in inventories",
+        "increase_decrease_in_inventories",
+        31109544964.0,
+        94205831805.0,
+        -191248707707.0,
+        -254373211769.0
+      ],
+      [
+        "Tăng/(giảm) các khoản phải trả",
+        "Increase/(decrease) in payables",
+        "increase_decrease_in_payables",
+        -227230596944.0,
+        1134407687548.0,
+        217043736720.0,
+        646611389946.0
+      ],
+      [
+        "(Tăng)/giảm chi phí trả trước",
+        "(Increase)/decrease in prepaid expenses",
+        "increase_decrease_in_prepaid_expenses",
+        27893688780.0,
+        -64632338344.0,
+        45459682510.0,
+        -21101025711.0
+      ],
+      [
+        "Tiền lãi vay đã trả",
+        "Interest paid",
+        "interest_paid",
+        -30284348668.0,
+        -35467218313.0,
+        -14396603162.0,
+        -5004838396.0
+      ],
+      [
+        "Thuế thu nhập doanh nghiệp đã nộp",
+        "Corporate Income Tax paid",
+        "corporate_income_tax_paid",
+        -138272147072.0,
+        -113276689628.0,
+        -79496141311.0,
+        6246429364.0
+      ],
+      [
+        "Tiền thu khác từ hoạt động kinh doanh",
+        "Other receipts from operating activities",
+        "other_receipts_from_operating_activities",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Tiền chi khác cho hoạt động kinh doanh",
+        "Other payments on operating activities",
+        "other_payments_on_operating_activities",
+        -62162017640.0,
+        -44069361087.0,
+        -30548608697.0,
+        -17695369832.0
+      ],
+      [
+        "Lưu chuyển tiền tệ ròng từ các hoạt động sản xuất kinh doanh",
+        "Net cash inflows/(outflows) from operating activities",
+        "net_cash_inflows_outflows_from_operating_activities",
+        -290128186257.0,
+        1107022363353.0,
+        310785816318.0,
+        277002621653.0
+      ],
+      [
+        "Tiền chi để mua sắm, xây dựng TSCĐ và các tài sản dài hạn khác",
+        "Purchases of fixed assets and other long term assets",
+        "purchases_of_fixed_assets_and_other_long_term_assets",
+        -328731283140.0,
+        -732994113792.0,
+        -1861244189741.0,
+        -326923920106.0
+      ],
+      [
+        "Tiền thu từ thanh lý, nhượng bán TSCĐ và các tài sản dài hạn khác",
+        "Proceeds from disposal of fixed assets",
+        "proceeds_from_disposal_of_fixed_assets",
+        0.0,
+        716142667.0,
+        -161348.0,
+        -31425455328.0
+      ],
+      [
+        "Tiền chi cho vay, mua các công cụ nợ của đơn vị khác",
+        "Loans granted, purchases of debt instruments",
+        "loans_granted_purchases_of_debt_instruments",
+        -1603545069407.0,
+        -634379568151.0,
+        -150515494.0,
+        -55000001886.0
+      ],
+      [
+        "Tiền thu hồi cho vay, bán lại các công cụ nợ của đơn vị khác",
+        "Collection of loans, proceeds from sales of debts instruments",
+        "collection_of_loans_proceeds_from_sales_of_debts_instruments",
+        596347840804.0,
+        588966108993.0,
+        319314655504.0,
+        292123948061.0
+      ],
+      [
+        "Tiền chi đầu tư góp vốn vào đơn vị khác",
+        "Investments in other entities",
+        "investments_in_other_entities",
+        0.0,
+        7196840000.0,
+        -7196840000.0,
+        0.0
+      ],
+      [
+        "Tiền thu hồi đầu tư góp vốn vào đơn vị khác",
+        "Proceeds from divestment in other entities",
+        "proceeds_from_divestment_in_other_entities",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Tiền thu lãi cho vay, cổ tức và lợi nhuận được chia",
+        "Dividends and interest received",
+        "dividends_and_interest_received",
+        148672944392.0,
+        25847172851.0,
+        11572654048.0,
+        13558619857.0
+      ],
+      [
+        "Lưu chuyển tiền thuần từ hoạt động đầu tư",
+        "Net cash inflows/(outflows) from investing activities",
+        "net_cash_inflows_outflows_from_investing_activities",
+        -1187255567351.0,
+        -744647417432.0,
+        -1537704397031.0,
+        -107666809402.0
+      ],
+      [
+        "Tiền thu từ phát hành cổ phiếu, nhận vốn góp của chủ sở hữu",
+        "Proceeds from issue of shares",
+        "proceeds_from_issue_of_shares",
+        0.0,
+        9725837524.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Tiền chi trả vốn góp cho các chủ sở hữu, mua lại cổ phiếu của doanh nghiệp đã phát hành",
+        "Payments for share returns and repurchases",
+        "payments_for_share_returns_and_repurchases",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Tiền thu được các khoản đi vay",
+        "Proceeds from loans",
+        "proceeds_from_loans",
+        1330984474764.0,
+        -151370537671.0,
+        1483894264824.0,
+        299967640681.0
+      ],
+      [
+        "Tiền trả nợ gốc vay",
+        "Repayment of loans",
+        "repayment_of_loans",
+        -259537039772.0,
+        472285649846.0,
+        -541041416189.0,
+        -278385990030.0
+      ],
+      [
+        "Tiền trả nợ gốc thuê tài chính",
+        "Finance lease principal payments",
+        "finance_lease_principal_payments",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Cổ tức, lợi nhuận đã trả cho chủ sở hữu",
+        "Dividends paid",
+        "dividends_paid",
+        0.0,
+        -281430430500.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Tiền lãi đã nhận",
+        "Interests, dividends, profits received",
+        "interests_dividends_profits_received",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Lưu chuyển tiền thuần từ hoạt động tài chính",
+        "Net cash inflows/(outflows) from financing activities",
+        "net_cash_inflows_outflows_from_financing_activities",
+        1071447434992.0,
+        49210519199.0,
+        942852848635.0,
+        21581650651.0
+      ],
+      [
+        "Lưu chuyển tiền thuần trong kỳ",
+        "Net increase in cash and cash equivalents",
+        "net_increase_in_cash_and_cash_equivalents",
+        -405936318616.0,
+        411585465120.0,
+        -284065732078.0,
+        190917462902.0
+      ],
+      [
+        "Tiền và tương đương tiền đầu kỳ",
+        "Cash and cash equivalents at the beginning of period",
+        "cash_and_cash_equivalents_at_the_beginning_of_period",
+        1821273980243.0,
+        1403165022930.0,
+        1672152087940.0,
+        1434546278280.0
+      ],
+      [
+        "Ảnh hưởng của thay đổi tỷ giá hối đoái quy đổi ngoại tệ",
+        "Effect of foreign exchange differences",
+        "effect_of_foreign_exchange_differences",
+        11559180809.0,
+        6523492193.0,
+        15078667068.0,
+        46688346758.0
+      ],
+      [
+        "Tiền và tương đương tiền cuối kỳ",
+        "Cash and cash equivalents at the end of period",
+        "cash_and_cash_equivalents_at_the_end_of_period",
+        1426896842436.0,
+        1821273980243.0,
+        1403165022930.0,
+        1672152087940.0
+      ],
+      [
+        "Phân bổ lợi thế thương mại",
+        "Amortization of goodwill",
+        "amortization_of_goodwill",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Các khoản điều chỉnh khác",
+        "Other adjustments",
+        "other_adjustments",
+        14938846171.0,
+        38906589337.0,
+        11107020924.0,
+        9033851380.0
+      ],
+      [
+        "(Tăng)/giảm chứng khoán kinh doanh",
+        "(Increase)/decrease in trading securities",
+        "increase_decrease_in_trading_securities",
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ]
+  }
+}
