@@ -1,8 +1,8 @@
 """
 app.py — Flask application entry point.
 
-Development mode uses fake_data.py for all data.
-To switch to real modules, update imports in routes/api_routes.py.
+Dữ liệu thật từ vnstock qua module1, module2, module3.
+Cache được lưu trong thư mục data/ (TTL 24h).
 """
 
 from flask import Flask
