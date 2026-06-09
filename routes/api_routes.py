@@ -1,16 +1,7 @@
 """
 routes/api_routes.py — JSON API endpoints.
 
-All data comes from fake_data.py during frontend-first development.
-To switch to real modules, replace the imports below:
-
-    import fake_data as module1
-    import fake_data as module2
-    import fake_data as module3
-→
-    from modules import module1_thudulieu as module1
-    from modules import module2_kythuat    as module2
-    from modules import module3_coban      as module3
+Tất cả dữ liệu lấy từ module thật (module1, module2, module3).
 """
 
 import sys
@@ -18,9 +9,9 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from flask import Blueprint, jsonify, request
-import fake_data as module1
-import fake_data as module2
-import fake_data as module3
+from modules import module1_thudulieu as module1
+from modules import module2_kythuat    as module2
+from modules import module3_coban      as module3
 
 api_bp = Blueprint("api", __name__)
 
@@ -138,8 +129,8 @@ def so_sanh():
                     "ky_thuat": {
                         "tin_hieu": tech["tin_hieu"],
                         "rsi": tech["rsi"],
-                        "ma20": tech["ma"]["MA20"],
-                        "ma50": tech["ma"]["MA50"],
+                        "ma20": tech["ma20"],
+                        "ma50": tech["ma50"],
                     },
                     "co_ban": {
                         "ROE": fund["chi_so"]["ROE"],
