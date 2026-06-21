@@ -90,6 +90,7 @@ async function initKetQua(ma_cp) {
     _renderTongQuan(info, prices);
     _renderKyThuat(prices, tech);
     _renderCoBan(fund);
+    _bindFundModal();
 
   } catch (err) {
     console.error('initKetQua error:', err);
@@ -306,6 +307,7 @@ function _renderKyThuat(prices, tech) {
 // --- Tab 3: Cơ bản ---
 
 function _renderCoBan(fund) {
+  _currentFundData = fund;  // lưu để modal đọc
   const chiSo    = fund.chi_so    || {};
   const chamDiem = fund.cham_diem || {};
 

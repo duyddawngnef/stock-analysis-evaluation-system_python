@@ -283,17 +283,20 @@ def _sheet_ky_thuat(wb, tech: dict):
         if v <= 30: return "Quá bán"
         return "Trung tính"
 
+    _macd_d = tech.get("macd") or {}
+    _bb_d   = tech.get("bollinger") or {}
+
     rows_kt = [
-        ("RSI (14)",          tech.get("rsi"),           "",       pct_rsi(tech.get("rsi"))),
-        ("MACD",              tech.get("macd"),           "",       "MACD Line"),
-        ("Signal",            tech.get("signal"),         "",       "Signal Line (EMA9)"),
-        ("Histogram",         tech.get("histogram"),      "",       "MACD - Signal"),
-        ("MA20",              tech.get("ma20"),           "nghìn đ", "Trung bình 20 phiên"),
-        ("MA50",              tech.get("ma50"),           "nghìn đ", "Trung bình 50 phiên"),
-        ("MA200",             tech.get("ma200"),          "nghìn đ", "Trung bình 200 phiên"),
-        ("Bollinger Upper",   tech.get("bollinger_upper"),  "nghìn đ", "Dải trên"),
-        ("Bollinger Middle",  tech.get("bollinger_middle"), "nghìn đ", "Dải giữa (SMA20)"),
-        ("Bollinger Lower",   tech.get("bollinger_lower"),  "nghìn đ", "Dải dưới"),
+        ("RSI (14)",          tech.get("rsi"),              "",         pct_rsi(tech.get("rsi"))),
+        ("MACD",              _macd_d.get("macd"),          "",         "MACD Line"),
+        ("Signal",            _macd_d.get("signal"),        "",         "Signal Line (EMA9)"),
+        ("Histogram",         _macd_d.get("histogram"),     "",         "MACD - Signal"),
+        ("MA20",              tech.get("ma20"),             "nghìn đ", "Trung bình 20 phiên"),
+        ("MA50",              tech.get("ma50"),             "nghìn đ", "Trung bình 50 phiên"),
+        ("MA200",             tech.get("ma200"),            "nghìn đ", "Trung bình 200 phiên"),
+        ("Bollinger Upper",   _bb_d.get("upper"),           "nghìn đ", "Dải trên"),
+        ("Bollinger Middle",  _bb_d.get("middle"),          "nghìn đ", "Dải giữa (SMA20)"),
+        ("Bollinger Lower",   _bb_d.get("lower"),           "nghìn đ", "Dải dưới"),
     ]
 
     for i, (label, val, unit, desc) in enumerate(rows_kt):
@@ -561,13 +564,15 @@ def _sheet_tong_hop(wb, info, tech, fund, ma_cp: str):
         _apply_header(c, h, _CLR_HEADER_DARK)
     ws.row_dimensions[8].height = 22
 
+    _macd_d2 = tech.get("macd") or {}
+
     rows_sum = [
         ("ROE",  chi_so.get("ROE"), "%",        cham_diem.get("ROE"), "MA20",  tech.get("ma20")),
         ("ROA",  chi_so.get("ROA"), "%",        cham_diem.get("ROA"), "MA50",  tech.get("ma50")),
         ("EPS",  chi_so.get("EPS"), "₫/CP",     cham_diem.get("EPS"), "MA200", tech.get("ma200")),
         ("PE",   chi_so.get("PE"),  "x",        cham_diem.get("PE"),  "RSI",   tech.get("rsi")),
-        ("PB",   chi_so.get("PB"),  "x",        cham_diem.get("PB"),  "MACD",  tech.get("macd")),
-        ("DE",   chi_so.get("DE"),  "",         cham_diem.get("DE"),  "Sig",   tech.get("signal")),
+        ("PB",   chi_so.get("PB"),  "x",        cham_diem.get("PB"),  "MACD",  _macd_d2.get("macd")),
+        ("DE",   chi_so.get("DE"),  "",         cham_diem.get("DE"),  "Signal",_macd_d2.get("signal")),
     ]
 
     for i, (k, v, u, sc, kt_name, kt_val) in enumerate(rows_sum):
