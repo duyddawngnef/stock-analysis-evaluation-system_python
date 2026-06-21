@@ -1,10 +1,10 @@
 {
   "ma": "GVR",
   "ten_cong_ty": "Tập đoàn Công nghiệp Cao su Việt Nam - CTCP",
-  "nganh": "Da nganh",
+  "nganh": "Hóa chất",
   "san": "HOSE",
-  "gia_hien_tai": 34.9,
-  "thay_doi_phan_tram": 0.87,
-  "khoi_luong": 803000,
-  "von_hoa": 0.0
+  "gia_hien_tai": 35.1,
+  "thay_doi_phan_tram": -1.27,
+  "khoi_luong": 2075600,
+  "von_hoa": 140400.0
 }
