@@ -41,8 +41,9 @@ def doc_cache(cache_file: str) -> bool:
     if not os.path.exists(cache_file):
         return False
 
-    file_age = time.time() - os.path.getmtime(cache_file)
-    return file_age < CACHE_TTL_SECONDS
+    # file_age = time.time() - os.path.getmtime(cache_file)
+    # return file_age < CACHE_TTL_SECONDS
+    return True
 
 
 def ghi_cache(cache_file: str, data) -> None:

@@ -67,7 +67,6 @@ def _lay_listing() -> pd.DataFrame:
         return _listing_cache
 
 
-
 # ---------------------------------------------------------------------------
 # Hàm chuẩn hóa dữ liệu giá
 # ---------------------------------------------------------------------------
@@ -97,7 +96,8 @@ def chuan_hoa_du_lieu(df: pd.DataFrame) -> pd.DataFrame:
         "tradingvolume": "volume",
         "matchvolume":   "volume",
     }
-    df = df.rename(columns={k: v for k, v in col_map.items() if k in df.columns})
+    df = df.rename(
+        columns={k: v for k, v in col_map.items() if k in df.columns})
 
     if "date" in df.columns:
         df["date"] = pd.to_datetime(df["date"])
@@ -155,11 +155,12 @@ def lay_thong_tin_co_phieu(ma_cp: str) -> dict:
         except Exception as e:
             print(f"[lay_thong_tin_co_phieu] Loi lay listing {ma_cp}: {e}")
 
-        # Lấy giá từ Quote API mới
+        # Lấy giá từ Quote API
         gia_hien_tai = 0.0
         thay_doi_phan_tram = 0.0
         khoi_luong = 0
         von_hoa = 0.0
+        so_co_phieu = 0
 
         try:
             ngay_hom_nay = datetime.now().strftime("%Y-%m-%d")
@@ -179,6 +180,87 @@ def lay_thong_tin_co_phieu(ma_cp: str) -> dict:
                 khoi_luong = int(df_hist["volume"].iloc[-1])
         except Exception as e:
             print(f"[lay_thong_tin_co_phieu] Loi lay gia {ma_cp}: {e}")
+
+        # Map tên ngành tiếng Anh → tiếng Việt (từ sector field của overview)
+        _SECTOR_VI = {
+            "food & beverage":          "Thực phẩm & Đồ uống",
+            "food":                     "Thực phẩm",
+            "beverage":                 "Đồ uống",
+            "banks":                    "Ngân hàng",
+            "bank":                     "Ngân hàng",
+            "financial services":       "Dịch vụ tài chính",
+            "insurance":                "Bảo hiểm",
+            "real estate":              "Bất động sản",
+            "construction":             "Xây dựng",
+            "materials":                "Vật liệu",
+            "steel":                    "Thép",
+            "industrial metals":        "Kim loại & Khoáng sản",
+            "oil & gas":                "Dầu khí",
+            "energy":                   "Năng lượng",
+            "utilities":                "Tiện ích",
+            "technology":               "Công nghệ",
+            "software":                 "Phần mềm",
+            "telecommunications":       "Viễn thông",
+            "media":                    "Truyền thông",
+            "retail":                   "Bán lẻ",
+            "consumer discretionary":   "Tiêu dùng tùy ý",
+            "consumer staples":         "Hàng tiêu dùng thiết yếu",
+            "healthcare":               "Y tế & Dược",
+            "pharmaceuticals":          "Dược phẩm",
+            "transportation":           "Vận tải & Logistics",
+            "aviation":                 "Hàng không",
+            "shipping":                 "Vận tải biển",
+            "agriculture":              "Nông nghiệp",
+            "chemicals":                "Hóa chất",
+            "securities":               "Chứng khoán",
+        }
+
+        # Lấy vốn hóa + ngành + tên công ty từ Company.overview() — API mới
+        try:
+            from vnstock.api.company import Company
+            comp = Company(symbol=ma_cp, source=VNSTOCK_SOURCE)
+            ov = comp.overview()
+            if ov is not None and not ov.empty:
+                # ── Vốn hóa ──
+                mc_raw = ov["market_cap"].iloc[0]
+                if mc_raw and float(mc_raw) > 0:
+                    von_hoa = round(float(mc_raw) / 1e9, 1)
+
+                # ── Ngành ── ưu tiên sector từ overview hơn listing
+                if "sector" in ov.columns:
+                    sec_raw = str(ov["sector"].iloc[0] or "").strip()
+                    if sec_raw and sec_raw.lower() not in ("", "nan", "none"):
+                        nganh = _SECTOR_VI.get(sec_raw.lower(), sec_raw)
+
+                # ── Tên công ty & sàn ── nếu listing không có
+                if not ten_cong_ty and "organ_name" in ov.columns:
+                    ten_cong_ty = str(ov["organ_name"].iloc[0] or "").strip()
+                if not san and "com_group_code" in ov.columns:
+                    grp = str(ov["com_group_code"].iloc[0] or "")
+                    if "HNX" in grp.upper():
+                        san = "HNX"
+                    elif "UPCOM" in grp.upper():
+                        san = "UPCOM"
+                    else:
+                        san = "HOSE"
+
+                # ── Fallback giá từ overview ──
+                if gia_hien_tai == 0.0 and "current_price" in ov.columns:
+                    cp_val = ov["current_price"].iloc[0]
+                    if cp_val and float(cp_val) > 0:
+                        gia_hien_tai = round(float(cp_val) / 1000, 2)
+
+                # ── Số cổ phiếu ──
+                if "issue_share" in ov.columns:
+                    v = ov["issue_share"].iloc[0]
+                    if v:
+                        so_co_phieu = int(float(v))
+        except Exception as e:
+            print(f"[lay_thong_tin_co_phieu] Loi lay overview {ma_cp}: {e}")
+            if von_hoa == 0.0 and gia_hien_tai > 0 and so_co_phieu > 0:
+                von_hoa = round(gia_hien_tai * 1000 * so_co_phieu / 1e9, 1)
+
+
 
         if not ten_cong_ty and gia_hien_tai == 0.0:
             raise ValueError(f"Khong tim thay ma {ma_cp}")
@@ -202,6 +284,7 @@ def lay_thong_tin_co_phieu(ma_cp: str) -> dict:
         raise
     except Exception as e:
         raise ValueError(f"Khong tim thay ma {ma_cp}: {e}") from e
+
 
 
 # ---------------------------------------------------------------------------
@@ -276,7 +359,7 @@ def lay_bao_cao_tai_chinh(ma_cp: str) -> dict:
         f = Finance(symbol=ma_cp, source=VNSTOCK_SOURCE)
 
         df_kqkd = f.income_statement(period="quarter", lang="vi")
-        df_bcd  = f.balance_sheet(period="quarter", lang="vi")
+        df_bcd = f.balance_sheet(period="quarter", lang="vi")
         df_lctt = f.cash_flow(period="quarter", lang="vi")
 
         result = {

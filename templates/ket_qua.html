@@ -174,6 +174,15 @@
         <!-- Charts column -->
         <div class="col-lg-8">
 
+          <!-- Time period selector -->
+          <div class="period-bar mb-3" id="periodBtns" role="group" aria-label="Chọn khoảng thời gian">
+            {% for key, label in [('1T','1 Tháng'),('3T','3 Tháng'),('6T','6 Tháng'),('1N','1 Năm'),('3N','3 Năm'),('ALL','Tất cả')] %}
+            <button class="period-btn {% if key == '1N' %}active{% endif %}"
+                    data-period="{{ key }}"
+                    title="{{ label }}">{{ key }}</button>
+            {% endfor %}
+          </div>
+
           <!-- Price + MA chart -->
           <div class="chart-container mb-4">
             <div class="chart-title">
@@ -202,7 +211,7 @@
           </div>
 
           <!-- MACD chart -->
-          <div class="chart-container">
+          <div class="chart-container mb-4">
             <div class="chart-title">
               <span class="material-icons">waterfall_chart</span>
               MACD
@@ -212,26 +221,50 @@
             </div>
           </div>
 
-        </div><!-- /charts column -->
-      </div><!-- /row -->
-
-      <!-- Bollinger info row -->
-      <div class="row g-3 mt-2">
-        <div class="col-12">
+          <!-- Bollinger Bands chart -->
           <div class="chart-container">
             <div class="chart-title">
               <span class="material-icons">timeline</span>
-              Bollinger Bands — Giá trị hiện tại
+              Bollinger Bands (MA20 ± 2σ)
+              <span class="ms-auto text-muted fw-normal" style="font-size:0.75rem;">Vùng tím = dải biến động · Giá ngoài dải = tín hiệu</span>
             </div>
-            <div class="row g-3" id="bollingerCards">
-              {% for label, id_suf in [('Dải trên', 'Upper'), ('Dải giữa (MA20)', 'Middle'), ('Dải dưới', 'Lower')] %}
-              <div class="col-4">
-                <div class="text-center">
-                  <div class="label-metric">{{ label }}</div>
-                  <div class="fw-bold fs-5 mt-1" id="bb{{ id_suf }}">—</div>
+            <div class="chart-inner" style="height:260px;">
+              <canvas id="bollingerChart" aria-label="Biểu đồ Bollinger Bands"></canvas>
+              <div id="bollingerChartLoading" class="loading-overlay">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Đang tải…</span>
                 </div>
               </div>
-              {% endfor %}
+            </div>
+          </div>
+
+        </div><!-- /charts column -->
+      </div><!-- /row -->
+
+      <!-- Bollinger values row -->
+      <div class="row g-3 mt-2">
+        <div class="col-12">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body py-3">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="material-icons" style="color:#6f42c1;font-size:18px;">info</span>
+                <span class="fw-semibold" style="font-size:0.85rem;">Giá trị Bollinger Bands hiện tại</span>
+              </div>
+              <div class="row g-2" id="bollingerCards">
+                {% for label, id_suf, color, icon in [
+                    ('Dải trên (Upper)', 'Upper', '#6f42c1', 'arrow_upward'),
+                    ('Dải giữa (MA20)', 'Middle', '#ffc107', 'remove'),
+                    ('Dải dưới (Lower)', 'Lower', '#6f42c1', 'arrow_downward')
+                ] %}
+                <div class="col-4">
+                  <div class="text-center p-2" style="border-radius:8px; background:rgba(0,0,0,0.03);">
+                    <span class="material-icons" style="color:{{ color }}; font-size:16px;">{{ icon }}</span>
+                    <div class="label-metric text-muted" style="font-size:0.75rem;">{{ label }}</div>
+                    <div class="fw-bold mt-1" style="font-size:1.05rem;" id="bb{{ id_suf }}">—</div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
             </div>
           </div>
         </div>
@@ -241,144 +274,233 @@
 
 
     <!-- ==============================================================
-         TAB 3 — CƠ BẢN
+         TAB 3 — CƠ BẢN (Premium Redesign)
          ============================================================== -->
     <div class="tab-pane fade"
          id="co-ban"
          role="tabpanel"
          aria-labelledby="tab-co-ban">
 
-      <div class="row g-4">
+      <!-- ── Hero row: Tổng điểm + Nhận xét ── -->
+      <div class="fund-hero mb-4">
+        <!-- Donut + grade -->
+        <div class="fund-hero-score">
+          <div class="fund-donut-wrap" aria-label="Biểu đồ điểm sức khỏe tài chính">
+            <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--fund-track,#e8ecf0)" stroke-width="3"/>
+              <circle id="scoreDonutArc" cx="18" cy="18" r="15.9" fill="none"
+                      stroke="#198754" stroke-width="3"
+                      stroke-dasharray="0 100"
+                      stroke-linecap="round"
+                      style="transition: stroke-dasharray 1s cubic-bezier(.4,0,.2,1), stroke .4s;"/>
+            </svg>
+            <div class="fund-donut-text">
+              <span id="scoreTong" class="fund-donut-num">—</span>
+              <small>/12</small>
+            </div>
+          </div>
+          <div class="fund-score-meta">
+            <div class="fund-score-label">Sức khoẻ tài chính</div>
+            <span id="scorePhanLoai" class="badge badge-signal fund-grade-badge">—</span>
+          </div>
+        </div>
 
-        <!-- Score total card -->
-        <div class="col-lg-3 col-md-4">
-          <div class="score-total-card">
-            <div class="score-donut" id="scoreDonut" aria-label="Biểu đồ điểm tổng">
-              <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#e8ecf0" stroke-width="3.2"/>
-                <circle id="scoreDonutArc" cx="18" cy="18" r="15.9" fill="none"
-                        stroke="#198754" stroke-width="3.2"
-                        stroke-dasharray="0 100"
-                        stroke-linecap="round"/>
+        <!-- Health bar breakdown -->
+        <div class="fund-hero-bars">
+          <div class="fund-hero-title">
+            <span class="material-icons" style="font-size:16px; color:var(--accent);">grade</span>
+            Chấm điểm từng chỉ số
+            <span class="ms-auto" style="font-size:0.73rem; color:var(--color-text-muted); font-weight:400;">Thang điểm 0 – 2 mỗi chỉ số</span>
+          </div>
+          {% set metrics = [
+            ('ROE', 'Tỷ suất vốn CSH',  'percent',          '#10b981', '>20% tốt, 15-20% khá, <15% yếu'),
+            ('ROA', 'Tỷ suất tài sản',  'account_balance',  '#3b82f6', '>10% tốt, 5-10% khá, <5% yếu'),
+            ('EPS', 'LN / cổ phiếu',    'attach_money',     '#f59e0b', '>5.000₫ tốt'),
+            ('PE',  'P/E',              'show_chart',        '#8b5cf6', '8-15 tốt, 15-20 khá'),
+            ('PB',  'P/B',              'library_books',    '#ec4899', '<1.5 tốt, 1.5-2.5 khá'),
+            ('DE',  'D/E  (Nợ/Vốn)',   'balance',          '#06b6d4', '<1 tốt, 1-2 khá'),
+          ] %}
+          {% for key, desc, icon, color, hint in metrics %}
+          <div class="fund-bar-row">
+            <span class="fund-bar-icon" style="color:{{ color }};">
+              <span class="material-icons">{{ icon }}</span>
+            </span>
+            <span class="fund-bar-label" title="{{ hint }}">
+              <b>{{ key }}</b>
+              <small>{{ desc }}</small>
+            </span>
+            <span class="fund-bar-val" id="chiSo{{ key }}">—</span>
+            <div class="fund-bar-track">
+              <div class="fund-bar-fill score-0" id="bar{{ key }}"
+                   style="--bar-color:{{ color }};"></div>
+            </div>
+            <span class="fund-bar-pts" id="pts{{ key }}">—</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- ── Metric cards row (6 KPIs) ── -->
+      <div class="row g-3 mb-4" id="fundMetricCards">
+        {% set kpi_list = [
+          ('ROE', 'ROE', 'Tỷ suất sinh lợi vốn CSH', 'percent',         '#10b981', 'rgba(16,185,129,.12)', '%'),
+          ('ROA', 'ROA', 'Tỷ suất sinh lợi tài sản', 'account_balance', '#3b82f6', 'rgba(59,130,246,.12)', '%'),
+          ('EPS', 'EPS', 'Lợi nhuận / cổ phiếu',     'attach_money',    '#f59e0b', 'rgba(245,158,11,.12)', '₫'),
+          ('PE',  'P/E', 'Hệ số giá / lợi nhuận',    'show_chart',      '#8b5cf6', 'rgba(139,92,246,.12)', 'x'),
+          ('PB',  'P/B', 'Hệ số giá / giá trị sổ',   'library_books',   '#ec4899', 'rgba(236,72,153,.12)', 'x'),
+          ('DE',  'D/E', 'Tỷ lệ nợ / vốn CSH',       'balance',         '#06b6d4', 'rgba(6,182,212,.12)',  ''),
+        ] %}
+        {% for key, label, desc, icon, color, bg, unit in kpi_list %}
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="fund-kpi-card" style="--kpi-color:{{ color }}; --kpi-bg:{{ bg }};"
+               data-metric="{{ key }}" role="button" tabindex="0"
+               aria-label="Xem giải thích chỉ số {{ label }}" title="Nhấp để xem giải thích">
+            <!-- Mini ring gauge -->
+            <div class="fund-kpi-ring" aria-hidden="true">
+              <svg viewBox="0 0 36 36">
+                <circle cx="18" cy="18" r="14" fill="none" stroke="var(--fund-track,#e8ecf0)" stroke-width="3.5"/>
+                <circle class="fund-kpi-arc" id="arc{{ key }}"
+                        cx="18" cy="18" r="14" fill="none"
+                        stroke="{{ color }}" stroke-width="3.5"
+                        stroke-dasharray="0 88"
+                        stroke-linecap="round"
+                        style="transform:rotate(-90deg); transform-origin:center; transition:stroke-dasharray 1s cubic-bezier(.4,0,.2,1);"/>
               </svg>
-              <div class="score-donut-text">
-                <span id="scoreTong">—</span>
-                <small>/12</small>
+              <div class="fund-kpi-ring-icon">
+                <span class="material-icons">{{ icon }}</span>
               </div>
             </div>
-            <div class="label-metric text-center mb-1">Tổng điểm</div>
-            <div class="text-center">
-              <span id="scorePhanLoai" class="badge badge-signal">—</span>
+            <div class="fund-kpi-label">{{ label }}</div>
+            <div class="fund-kpi-value" id="kpi{{ key }}">—</div>
+            <div class="fund-kpi-desc">{{ desc }}</div>
+            <div class="fund-kpi-score" id="kpiScore{{ key }}">
+              <span class="fund-kpi-star" id="kpiStar{{ key }}">—</span>
             </div>
+            <div class="fund-kpi-hint"><span class="material-icons">info_outline</span> Nhấp để xem</div>
           </div>
         </div>
+        {% endfor %}
+      </div>
 
-        <!-- Score bars -->
-        <div class="col-lg-9 col-md-8">
-          <div class="card border-0 shadow-sm">
-            <div class="card-body">
-              <h2 class="fs-6 fw-bold mb-3">
-                <span class="material-icons align-middle me-1" style="font-size:18px;">grade</span>
-                Chấm điểm từng chỉ số
-              </h2>
-              <div id="scoreBars">
-                {% set metrics = [
-                  ('ROE', 'Tỷ suất sinh lợi vốn CSH', '>20% tốt, 15-20% khá'),
-                  ('ROA', 'Tỷ suất sinh lợi tài sản', '>10% tốt, 5-10% khá'),
-                  ('EPS', 'Lợi nhuận trên cổ phiếu', '>5.000₫ tốt'),
-                  ('PE',  'Hệ số giá/lợi nhuận', '8-15 tốt, 15-20 khá'),
-                  ('PB',  'Hệ số giá/giá trị sổ', '<1.5 tốt, 1.5-2.5 khá'),
-                  ('DE',  'Tỷ lệ nợ/vốn CSH', '<1 tốt, 1-2 khá'),
-                ] %}
-                {% for key, desc, hint in metrics %}
-                <div class="score-item">
-                  <span class="score-label">{{ key }}</span>
-                  <span class="score-value" id="chiSo{{ key }}">—</span>
-                  <div class="score-bar-wrap" title="{{ hint }}">
-                    <div class="score-bar-fill score-0" id="bar{{ key }}"></div>
-                  </div>
-                  <span class="score-pts" id="pts{{ key }}">—</span>
-                </div>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
+      <!-- ── Bảng tiêu chuẩn (improved) ── -->
+      <div class="chart-container">
+        <div class="chart-title">
+          <span class="material-icons">table_chart</span>
+          Bảng tiêu chuẩn chấm điểm
+          <span class="ms-auto text-muted fw-normal" style="font-size:0.73rem;">Theo tiêu chí phân tích cơ bản Việt Nam</span>
         </div>
-
-      </div><!-- /row -->
-
-      <!-- Thresholds reference -->
-      <div class="card border-0 shadow-sm mt-4">
-        <div class="card-body">
-          <h2 class="fs-6 fw-bold mb-3">
-            <span class="material-icons align-middle me-1" style="font-size:18px;">table_chart</span>
-            Bảng tiêu chuẩn chấm điểm
-          </h2>
-          <div class="table-responsive">
-            <table class="table table-sm table-hover align-middle mb-0" aria-label="Tiêu chuẩn chấm điểm">
-              <thead class="table-dark">
-                <tr>
-                  <th>Chỉ số</th>
-                  <th class="text-success">2 điểm ⭐⭐</th>
-                  <th class="text-warning">1 điểm ⭐</th>
-                  <th class="text-danger">0 điểm</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% set thresholds = [
-                  ('ROE', '> 20%', '15 – 20%', '< 15%'),
-                  ('ROA', '> 10%', '5 – 10%', '< 5%'),
-                  ('EPS', '> 5.000 ₫', '2.000 – 5.000 ₫', '< 2.000 ₫'),
-                  ('P/E', '8 – 15', '15 – 20', '> 20 hoặc < 8'),
-                  ('P/B', '< 1.5', '1.5 – 2.5', '> 2.5'),
-                  ('D/E', '< 1', '1 – 2', '> 2'),
-                ] %}
-                {% for m, t2, t1, t0 in thresholds %}
-                <tr>
-                  <td class="fw-semibold">{{ m }}</td>
-                  <td class="text-success">{{ t2 }}</td>
-                  <td class="text-warning">{{ t1 }}</td>
-                  <td class="text-danger">{{ t0 }}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
+        <div class="table-responsive">
+          <table class="table table-sm align-middle mb-0 fund-criteria-table" aria-label="Tiêu chuẩn chấm điểm">
+            <thead>
+              <tr>
+                <th style="width:80px;">Chỉ số</th>
+                <th class="text-center">
+                  <span class="badge" style="background:rgba(16,185,129,.15); color:#10b981; border:1px solid rgba(16,185,129,.3);">⭐⭐ 2 điểm — Tốt</span>
+                </th>
+                <th class="text-center">
+                  <span class="badge" style="background:rgba(245,158,11,.12); color:#f59e0b; border:1px solid rgba(245,158,11,.25);">⭐ 1 điểm — Khá</span>
+                </th>
+                <th class="text-center">
+                  <span class="badge" style="background:rgba(239,68,68,.1); color:#ef4444; border:1px solid rgba(239,68,68,.2);">0 điểm — Yếu</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% set thresholds = [
+                ('ROE', 'Sinh lợi vốn',   '> 20%',      '15 – 20%',        '< 15%'),
+                ('ROA', 'Sinh lợi tài sản','> 10%',      '5 – 10%',         '< 5%'),
+                ('EPS', 'LN/CP',           '> 5.000 ₫',  '2.000 – 5.000 ₫', '< 2.000 ₫'),
+                ('P/E', 'Định giá',        '8 – 15',     '15 – 20',         '> 20 hoặc < 8'),
+                ('P/B', 'Giá trị sổ',      '< 1.5',      '1.5 – 2.5',       '> 2.5'),
+                ('D/E', 'Đòn bẩy nợ',      '< 1',        '1 – 2',           '> 2'),
+              ] %}
+              {% for m, mdesc, t2, t1, t0 in thresholds %}
+              <tr>
+                <td>
+                  <span class="fw-bold">{{ m }}</span>
+                  <div style="font-size:0.7rem; color:var(--color-text-muted);">{{ mdesc }}</div>
+                </td>
+                <td class="text-center">
+                  <span style="color:#10b981; font-weight:600;">{{ t2 }}</span>
+                </td>
+                <td class="text-center">
+                  <span style="color:#f59e0b; font-weight:600;">{{ t1 }}</span>
+                </td>
+                <td class="text-center">
+                  <span style="color:#ef4444; font-weight:600;">{{ t0 }}</span>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
       </div>
 
     </div><!-- /tab-co-ban -->
 
-
-    <!-- ==============================================================
-         TAB 4 — SO SÁNH (redirect prompt)
-         ============================================================== -->
-    <div class="tab-pane fade"
-         id="so-sanh-tab"
-         role="tabpanel"
-         aria-labelledby="tab-so-sanh">
-
-      <div class="text-center py-5">
-        <div class="mb-3">
-          <span class="material-icons" style="font-size:64px; color:var(--color-primary); opacity:.9;">compare_arrows</span>
-        </div>
-        <h2 class="fs-4 fw-bold mb-2">So sánh nhiều cổ phiếu</h2>
-        <p class="text-muted mb-4" style="max-width:480px; margin:0 auto;">
-          Đặt <strong>{{ ma_cp }}</strong> cạnh tối đa 4 mã khác để so sánh
-          biểu đồ giá, chỉ số cơ bản và tín hiệu kỹ thuật.
-        </p>
-        <a id="btnGoCompare"
-           href="{{ url_for('trang.so_sanh') }}?ma={{ ma_cp }}"
-           class="btn btn-primary btn-lg">
-          <span class="material-icons">compare_arrows</span>
-          Mở trang So sánh với {{ ma_cp }}
-        </a>
-      </div>
-
-    </div><!-- /tab-so-sanh -->
-
   </div><!-- /tab-content -->
 </div><!-- /container -->
+
+<!-- ================================================================
+     FUND METRIC EXPLANATION MODAL
+     ================================================================ -->
+<div id="fundModal" class="fund-modal" aria-hidden="true" role="dialog"
+     aria-modal="true" aria-labelledby="fmTitle">
+  <div class="fund-modal-backdrop" id="fmBackdrop"></div>
+  <div class="fund-modal-panel">
+    <button class="fund-modal-close" id="fmClose" aria-label="Đóng">
+      <span class="material-icons">close</span>
+    </button>
+
+    <!-- Header -->
+    <div class="fund-modal-header">
+      <div class="fund-modal-icon" id="fmIcon"></div>
+      <div>
+        <div class="fund-modal-title" id="fmTitle">—</div>
+        <div class="fund-modal-full" id="fmFull">—</div>
+      </div>
+    </div>
+
+    <!-- Current value + score -->
+    <div class="fund-modal-value-row">
+      <div class="fund-modal-val-box">
+        <div class="fund-modal-val-label">Giá trị hiện tại</div>
+        <div class="fund-modal-val" id="fmVal">—</div>
+      </div>
+      <div class="fund-modal-val-box">
+        <div class="fund-modal-val-label">Điểm số</div>
+        <div class="fund-kpi-star" id="fmScore">—</div>
+      </div>
+    </div>
+
+    <!-- Meaning -->
+    <div class="fund-modal-section">
+      <div class="fund-modal-section-title">
+        <span class="material-icons">help_outline</span> Ý nghĩa
+      </div>
+      <div class="fund-modal-text" id="fmMeaning">—</div>
+    </div>
+
+    <!-- Formula -->
+    <div class="fund-modal-section">
+      <div class="fund-modal-section-title">
+        <span class="material-icons">functions</span> Công thức
+      </div>
+      <div class="fund-modal-formula" id="fmFormula">—</div>
+    </div>
+
+    <!-- Scoring thresholds -->
+    <div class="fund-modal-section">
+      <div class="fund-modal-section-title">
+        <span class="material-icons">grade</span> Ngưỡng chấm điểm
+      </div>
+      <div class="fund-modal-tiers" id="fmTiers"></div>
+    </div>
+
+    <!-- Interpretation -->
+    <div class="fund-modal-interpret" id="fmInterpret">—</div>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -388,3 +510,4 @@
   document.addEventListener('DOMContentLoaded', () => initKetQua(PAGE_MA_CP));
 </script>
 {% endblock %}
+

@@ -55,6 +55,8 @@ _SO_CP_LUU_HANH = [
     "Số cổ phiếu lưu hành",
     "Cổ phiếu lưu hành",
     "Shares outstanding",
+    "Cổ phiếu phổ thông đang lưu hành",
+    "Outstanding shares",
 ]
 
 _VON_DIEU_LE = [
@@ -128,7 +130,8 @@ def _lay_gia_tri(df: pd.DataFrame, danh_sach_ten: list, ky: int = 0) -> float | 
     # Tìm gần đúng (contains) — fallback cuối cùng
     for ten in danh_sach_ten:
         if "item" in df.columns:
-            mask = df["item"].astype(str).str.contains(ten.strip(), case=False, na=False)
+            mask = df["item"].astype(str).str.contains(
+                ten.strip(), case=False, na=False)
             if mask.any():
                 val = df.loc[mask, ky_col].iloc[0]
                 try:
@@ -320,9 +323,9 @@ def cham_diem_doanh_nghiep(chi_so_dict: dict) -> dict:
     roe = chi_so_dict.get("roe")
     roa = chi_so_dict.get("roa")
     eps = chi_so_dict.get("eps")
-    pe  = chi_so_dict.get("pe")
-    pb  = chi_so_dict.get("pb")
-    de  = chi_so_dict.get("de")
+    pe = chi_so_dict.get("pe")
+    pb = chi_so_dict.get("pb")
+    de = chi_so_dict.get("de")
 
     def s(v, tiers):
         if v is None:
@@ -341,7 +344,8 @@ def cham_diem_doanh_nghiep(chi_so_dict: dict) -> dict:
         "DE":  s(de,  [(2, lambda v: v < 1),   (1, lambda v: v <= 2)]),
     }
     diem_tong = sum(chi_tiet.values())
-    phan_loai = "TỐT" if diem_tong >= 9 else ("KHÁ" if diem_tong >= 5 else "YẾU")
+    phan_loai = "TỐT" if diem_tong >= 9 else (
+        "KHÁ" if diem_tong >= 5 else "YẾU")
 
     return {
         "diem_tong": diem_tong,
@@ -353,6 +357,22 @@ def cham_diem_doanh_nghiep(chi_so_dict: dict) -> dict:
 # ---------------------------------------------------------------------------
 # Hàm 8: Tổng hợp module 3 (hàm giao tiếp chính)
 # ---------------------------------------------------------------------------
+
+def _lay_so_cp_tu_overview(ma_cp: str) -> float | None:
+    """Lấy số cổ phiếu lưu hành từ company.overview() — fallback khi BCTC không có."""
+    try:
+        from vnstock.api.company import Company
+        from config import VNSTOCK_SOURCE
+        comp = Company(symbol=ma_cp, source=VNSTOCK_SOURCE)
+        ov = comp.overview()
+        if ov is not None and not ov.empty and "issue_share" in ov.columns:
+            v = ov["issue_share"].iloc[0]
+            if v and float(v) > 0:
+                return float(v)
+    except Exception:
+        pass
+    return None
+
 
 def tom_tat_module3(ma_cp: str) -> dict:
     """
@@ -381,9 +401,30 @@ def tom_tat_module3(ma_cp: str) -> dict:
     roe = tinh_roe(bao_cao_tc)
     roa = tinh_roa(bao_cao_tc)
     eps = tinh_eps(bao_cao_tc)
-    pe  = tinh_pe(gia_hien_tai, eps)
-    pb  = tinh_pb(gia_hien_tai, bao_cao_tc)
-    de  = tinh_de(bao_cao_tc)
+    pe = tinh_pe(gia_hien_tai, eps)
+    pb = tinh_pb(gia_hien_tai, bao_cao_tc)
+    de = tinh_de(bao_cao_tc)
+
+    # Fallback: nếu P/B hoặc EPS vẫn None do không tìm được số cổ phiếu,
+    # thử lấy issue_share từ company.overview()
+    if pb is None or eps is None:
+        so_cp_ov = _lay_so_cp_tu_overview(ma_cp)
+        if so_cp_ov and so_cp_ov > 0:
+            bcdk = bao_cao_tc.get("bang_can_doi_ke_toan")
+            kqkd = bao_cao_tc.get("kqkd")
+
+            if pb is None and bcdk is not None:
+                von_chu = _lay_gia_tri(bcdk, _VON_CHU_SO_HUU)
+                if von_chu and von_chu > 0:
+                    bvps = von_chu / so_cp_ov
+                    if bvps > 0:
+                        pb = round((gia_hien_tai * 1000) / bvps, 2)
+
+            if eps is None and kqkd is not None:
+                loi_nhuan = _lay_gia_tri(kqkd, _LOI_NHUAN_SAU_THUE)
+                if loi_nhuan is not None:
+                    eps = round(loi_nhuan / so_cp_ov, 0)
+                    pe = tinh_pe(gia_hien_tai, eps)  # tính lại PE với EPS mới
 
     chi_so = {"roe": roe, "roa": roa, "eps": eps, "pe": pe, "pb": pb, "de": de}
     ket_qua = cham_diem_doanh_nghiep(chi_so)
