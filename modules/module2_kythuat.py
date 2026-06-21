@@ -124,28 +124,54 @@ def tom_tat_module2(df_gia: pd.DataFrame) -> dict:
     tin_hieu = tao_tin_hieu_chung(df_gia)
  
     def safe(val):
-        return round(float(val), 2) if not pd.isna(val) else None
+        return round(float(val), 4) if not pd.isna(val) else None
  
+    # Giá trị scalar cuối cùng
+    _ma20  = safe(ma20_s.iloc[-1])
+    _ma50  = safe(ma50_s.iloc[-1])
+    _ma200 = safe(ma200_s.iloc[-1])
+    _macd  = safe(macd_d['macd'].iloc[-1])
+    _sig   = safe(macd_d['signal'].iloc[-1])
+    _hist  = safe(macd_d['histogram'].iloc[-1])
+    _bbU   = safe(bb['upper'].iloc[-1])
+    _bbM   = safe(bb['middle'].iloc[-1])
+    _bbL   = safe(bb['lower'].iloc[-1])
+
     return {
-        "rsi":               round(float(rsi_s.iloc[-1]), 2),
-        "macd":              round(float(macd_d['macd'].iloc[-1]), 4),
-        "signal":            round(float(macd_d['signal'].iloc[-1]), 4),
-        "histogram":         round(float(macd_d['histogram'].iloc[-1]), 4),
-        "ma20":              safe(ma20_s.iloc[-1]),
-        "ma50":              safe(ma50_s.iloc[-1]),
-        "ma200":             safe(ma200_s.iloc[-1]),
-        "bollinger_upper":   safe(bb['upper'].iloc[-1]),
-        "bollinger_middle":  safe(bb['middle'].iloc[-1]),
-        "bollinger_lower":   safe(bb['lower'].iloc[-1]),
-        "tin_hieu":          tin_hieu['tin_hieu'],
-        "so_tin_hieu_mua":   tin_hieu['so_tin_hieu_mua'],
-        "giai_thich":        tin_hieu['giai_thich'],
- 
-        "rsi_series":        rsi_s.dropna().tolist(),
-        "macd_series":       macd_d['macd'].dropna().tolist(),
-        "signal_series":     macd_d['signal'].dropna().tolist(),
+        # ── Scalar summary (dùng cho tín hiệu + gauge) ──
+        "rsi":              round(float(rsi_s.iloc[-1]), 2),
+        "tin_hieu":         tin_hieu['tin_hieu'],
+        "so_tin_hieu_mua":  tin_hieu['so_tin_hieu_mua'],
+        "giai_thich":       tin_hieu['giai_thich'],
+
+        # ── Nested dicts (khớp với main.js) ──
+        "ma": {
+            "MA20":  _ma20,
+            "MA50":  _ma50,
+            "MA200": _ma200,
+        },
+        "macd": {
+            "macd":      _macd,
+            "signal":    _sig,
+            "histogram": _hist,
+        },
+        "bollinger": {
+            "upper":  _bbU,
+            "middle": _bbM,
+            "lower":  _bbL,
+        },
+
+        # ── Flat aliases (dùng cho api_routes so_sanh) ──
+        "ma20":  _ma20,
+        "ma50":  _ma50,
+        "ma200": _ma200,
+
+        # ── Series cho charts.js (giữ nguyên) ──
+        "rsi_series":              rsi_s.dropna().tolist(),
+        "macd_series":             macd_d['macd'].dropna().tolist(),
+        "signal_series":           macd_d['signal'].dropna().tolist(),
         "bollinger_upper_series":  bb['upper'].dropna().tolist(),
         "bollinger_middle_series": bb['middle'].dropna().tolist(),
         "bollinger_lower_series":  bb['lower'].dropna().tolist(),
     }
- 
+ 

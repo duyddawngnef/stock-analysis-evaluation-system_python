@@ -3,207 +3,982 @@
 {% block title %}Trang chủ{% endblock %}
 {% block meta_desc %}Phân tích cổ phiếu Việt Nam miễn phí — Phân tích kỹ thuật, cơ bản, và so sánh tới 5 mã HOSE HNX UPCOM{% endblock %}
 
+{% block head_extra %}
+<style>
+/* ============================================================
+   TRANG CHỦ — Unified theme CSS (no hardcoded colors)
+   ============================================================ */
+
+/* ---------- TICKER MARQUEE BAR ---------- */
+.ticker-bar {
+  background: var(--color-bg-2);
+  border-bottom: 1px solid var(--color-border);
+  overflow: hidden;
+  height: 36px;
+  display: flex;
+  align-items: center;
+}
+.ticker-track {
+  display: flex;
+  gap: 0;
+  white-space: nowrap;
+  animation: ticker-scroll 60s linear infinite;
+}
+.ticker-track:hover { animation-play-state: paused; }
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 1.25rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-right: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: background .15s;
+  height: 36px;
+  text-decoration: none;
+  color: var(--color-text-muted);
+}
+.ticker-item:hover { background: var(--color-bg-hover); color: var(--color-text); }
+.ticker-item .t-name  { color: var(--color-text); font-weight: 700; font-size: 0.8rem; }
+.ticker-item .t-price { color: var(--color-text-muted); }
+.ticker-item .t-chg.up   { color: var(--color-mua-manh); }
+.ticker-item .t-chg.down { color: var(--color-ban); }
+.ticker-item .t-chg.flat { color: var(--color-giu); }
+
+/* ---------- INDEX BAR ---------- */
+.index-bar {
+  background: var(--color-bg-2);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.5rem 0;
+}
+.index-card {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1.25rem;
+  border-right: 1px solid var(--color-border);
+  min-width: 130px;
+}
+.index-card:last-child { border-right: none; }
+.index-card .i-name {
+  font-size: 0.68rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.index-card .i-val {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+.index-card .i-chg { font-size: 0.72rem; font-weight: 600; }
+.i-chg.up   { color: var(--color-mua-manh); }
+.i-chg.down { color: var(--color-ban); }
+.i-chg.flat { color: var(--color-giu); }
+
+/* ---------- HERO ---------- */
+.home-hero {
+  background: linear-gradient(160deg, var(--color-bg) 0%, var(--color-bg-2) 50%, var(--color-bg) 100%);
+  padding: 3.5rem 0 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.home-hero::before {
+  content: '';
+  position: absolute;
+  top: -120px; right: -120px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(var(--accent-rgb),.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+.home-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: 5%;
+  width: 360px; height: 360px;
+  background: radial-gradient(circle, rgba(14,203,129,.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  background: rgba(var(--accent-rgb),.1);
+  border: 1px solid rgba(var(--accent-rgb),.25);
+  color: var(--accent);
+  border-radius: 2rem;
+  padding: .3em .9em;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  margin-bottom: 1.1rem;
+  text-transform: uppercase;
+}
+.hero-eyebrow .dot {
+  width: 6px; height: 6px;
+  background: var(--color-mua-manh);
+  border-radius: 50%;
+  animation: blink 1.5s ease infinite;
+}
+@keyframes blink { 0%,100%{ opacity:1; } 50%{ opacity:.2; } }
+
+.hero-h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -.03em;
+  color: var(--color-text);
+  margin-bottom: .9rem;
+}
+.hero-h1 .hl-yellow { color: var(--accent); }
+.hero-h1 .hl-green  { color: var(--color-mua-manh); }
+.hero-sub {
+  color: var(--color-text-muted);
+  font-size: 1.05rem;
+  margin-bottom: 2rem;
+  line-height: 1.7;
+}
+.hero-sub strong { color: var(--color-text); }
+
+/* Search box */
+.home-search-wrap { position: relative; max-width: 600px; }
+.home-search-wrap .search-icon {
+  position: absolute;
+  left: 1rem; top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  font-size: 20px;
+  z-index: 2;
+}
+.home-search-wrap input[type=text] {
+  width: 100%;
+  background: var(--card-bg);
+  border: 1.5px solid var(--card-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-size: 1rem;
+  padding: .85rem 1rem .85rem 3rem;
+  transition: border-color .2s, background .2s, box-shadow .2s;
+  outline: none;
+}
+.home-search-wrap input[type=text]::placeholder { color: var(--color-text-muted); }
+.home-search-wrap input[type=text]:focus {
+  border-color: var(--accent);
+  background: var(--card-bg);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb),.15);
+}
+.home-search-wrap .btn-search {
+  position: absolute;
+  right: .4rem; top: 50%;
+  transform: translateY(-50%);
+  background: var(--accent);
+  color: #0b0e17;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: .5rem 1.2rem;
+  font-weight: 700;
+  font-size: .88rem;
+  cursor: pointer;
+  transition: background .15s, transform .15s;
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+}
+.home-search-wrap .btn-search:hover {
+  background: var(--accent-dark);
+  transform: translateY(-50%) scale(1.02);
+}
+.home-search-wrap .btn-search .material-icons { font-size: 18px; }
+
+/* Quick chips */
+.quick-chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
+.quick-chip {
+  background: var(--color-bg-hover);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  border-radius: 2rem;
+  padding: .28em .8em;
+  font-size: .8rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.quick-chip:hover {
+  background: rgba(var(--accent-rgb),.12);
+  border-color: rgba(var(--accent-rgb),.4);
+  color: var(--accent);
+}
+
+/* Hero preview card */
+.hero-preview-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+}
+.hero-preview-card .pc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: .78rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-weight: 600;
+}
+.hero-preview-card .pc-header a { color: var(--accent); text-decoration: none; }
+.preview-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .55rem .4rem;
+  border-bottom: 1px solid var(--color-border-light);
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: background .12s;
+}
+.preview-row:last-child { border-bottom: none; }
+.preview-row:hover { background: var(--color-bg-hover); }
+.preview-row .pr-ticker { font-size: .9rem; font-weight: 700; color: var(--color-text); }
+.preview-row .pr-name   { font-size: .72rem; color: var(--color-text-muted); }
+.preview-row .pr-price  { font-size: .9rem; font-weight: 600; color: var(--color-text); }
+.preview-row .pr-chg    { font-size: .78rem; font-weight: 700; min-width: 56px; text-align: right; }
+.pr-chg.up   { color: var(--color-mua-manh); }
+.pr-chg.down { color: var(--color-ban); }
+.pr-chg.flat { color: var(--color-giu); }
+
+/* ---------- STATS STRIP ---------- */
+.stats-strip {
+  background: var(--color-bg-2);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding: .6rem 0;
+}
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  padding: 0 1rem;
+  border-right: 1px solid var(--color-border);
+}
+.stat-item:last-child { border-right: none; }
+.stat-item .si-icon {
+  width: 30px; height: 30px;
+  border-radius: .45rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stat-item .si-icon .material-icons { font-size: 16px; color: #fff; }
+.si-icon.yellow { background: rgba(var(--accent-rgb),.15); }
+.si-icon.yellow .material-icons { color: var(--accent); }
+.si-icon.green  { background: rgba(14,203,129,.15); }
+.si-icon.green  .material-icons { color: var(--color-mua-manh); }
+.si-icon.blue   { background: rgba(59,130,246,.15); }
+.si-icon.blue   .material-icons { color: var(--color-primary); }
+.si-icon.purple { background: rgba(139,92,246,.15); }
+.si-icon.purple .material-icons { color: #8b5cf6; }
+.stat-item .si-text .si-label {
+  font-size: .68rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.stat-item .si-text .si-val {
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* ---------- MARKET TABLE ---------- */
+.market-section { padding: 3rem 0; }
+.section-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-text);
+  margin-bottom: .25rem;
+}
+.section-sub { font-size: .85rem; color: var(--color-text-muted); margin-bottom: 1.5rem; }
+
+.cat-tabs { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.cat-tab {
+  background: var(--color-bg-hover);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  border-radius: 2rem;
+  padding: .4em 1.1em;
+  font-size: .82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.cat-tab:hover { background: var(--card-bg); color: var(--color-text); }
+.cat-tab.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0b0e17;
+}
+
+.mkt-table-wrap {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.mkt-table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+.mkt-table thead tr {
+  background: var(--table-head-bg);
+  border-bottom: 1px solid var(--table-head-border);
+}
+.mkt-table thead th {
+  padding: .8rem 1rem;
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+.mkt-table tbody tr {
+  border-bottom: 1px solid var(--table-row-border);
+  cursor: pointer;
+  transition: background .12s;
+}
+.mkt-table tbody tr:last-child { border-bottom: none; }
+.mkt-table tbody tr:hover { background: var(--color-bg-hover); }
+.mkt-table td { padding: .85rem 1rem; vertical-align: middle; white-space: nowrap; }
+.mkt-td-ticker { font-weight: 700; color: var(--color-text); font-size: .95rem; }
+.mkt-td-name   { color: var(--color-text-muted); font-size: .78rem; }
+.mkt-td-price  { font-weight: 700; color: var(--color-text); }
+.mkt-td-chg    { font-weight: 700; font-size: .85rem; }
+.mkt-td-chg.up   { color: var(--color-mua-manh); }
+.mkt-td-chg.down { color: var(--color-ban); }
+.mkt-td-vol    { color: var(--color-text-muted); }
+.mkt-td-signal .sig-badge {
+  font-size: .72rem;
+  font-weight: 700;
+  padding: .25em .75em;
+  border-radius: 2rem;
+}
+.sig-badge.mua-manh { background: rgba(14,203,129,.12); color: var(--color-mua-manh); }
+.sig-badge.mua      { background: rgba(14,203,129,.08); color: var(--color-mua); }
+.sig-badge.giu      { background: rgba(var(--accent-rgb),.1); color: var(--color-giu); }
+.sig-badge.ban      { background: rgba(246,70,93,.1);  color: var(--color-ban); }
+.score-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  font-size: .72rem;
+  font-weight: 700;
+  padding: .25em .75em;
+  border-radius: 2rem;
+}
+.score-pill.tot { background: rgba(14,203,129,.1); color: var(--color-tot); }
+.score-pill.kha { background: rgba(var(--accent-rgb),.1); color: var(--color-kha); }
+.score-pill.yeu { background: rgba(246,70,93,.1); color: var(--color-yeu); }
+
+.sparkline { display: inline-block; width: 72px; height: 30px; vertical-align: middle; }
+
+/* ---------- HOW IT WORKS ---------- */
+.how-section { padding: 3rem 0; background: var(--color-bg); }
+.step-num {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #0b0e17;
+  font-weight: 800;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.how-step { display: flex; align-items: flex-start; gap: 1.25rem; }
+.step-content .step-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: .3rem;
+}
+.step-content .step-desc {
+  font-size: .83rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+/* Group panel */
+.group-panel {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.1rem;
+}
+.group-panel .gp-label {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  margin-bottom: .65rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.group-chip {
+  background: var(--color-bg-hover);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  border-radius: var(--radius-sm);
+  padding: .22em .65em;
+  font-size: .8rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all .15s;
+  display: inline-block;
+}
+.group-chip:hover {
+  background: rgba(var(--accent-rgb),.12);
+  color: var(--accent);
+  border-color: rgba(var(--accent-rgb),.3);
+}
+
+/* ---------- DISCLAIMER ---------- */
+.disclaimer-banner {
+  background: rgba(var(--accent-rgb),.05);
+  border: 1px solid rgba(var(--accent-rgb),.15);
+  border-radius: var(--radius-md);
+  padding: .9rem 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  font-size: .83rem;
+  color: var(--color-text-muted);
+  margin: 2rem 0;
+}
+.disclaimer-banner .material-icons { color: var(--accent); font-size: 18px; flex-shrink: 0; margin-top: .05rem; }
+.disclaimer-banner strong { color: var(--color-text); }
+
+/* ---------- FEATURES SECTION ---------- */
+.features-section { padding: 3rem 0; background: var(--color-bg-2); }
+
+/* ---------- VIEW BUTTON in table ---------- */
+.mkt-view-btn {
+  background: var(--color-bg-hover);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: .75rem;
+  padding: .25rem .7rem;
+  text-decoration: none;
+  transition: all .15s;
+  display: inline-block;
+}
+.mkt-view-btn:hover {
+  background: rgba(var(--accent-rgb),.12);
+  color: var(--accent);
+  border-color: rgba(var(--accent-rgb),.3);
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 767px) {
+  .hero-h1 { font-size: 1.75rem; }
+  .index-card { min-width: 110px; padding: 0 .75rem; }
+  .ticker-bar { display: none; }
+  .stat-item { padding: 0 .6rem; }
+  .mkt-table td, .mkt-table th { padding: .65rem .6rem; }
+}
+</style>
+{% endblock %}
+
 {% block content %}
 
-<!-- ======================================================================
-     HERO SECTION
-     ====================================================================== -->
-<section class="hero-section" aria-labelledby="heroHeading">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-8 col-xl-7 text-center">
+<!-- ================================================================
+     LIVE TICKER MARQUEE BAR
+     ================================================================ -->
+<div class="ticker-bar">
+  <div class="ticker-track" id="tickerTrack">
+    {% set ticker_data = [
+      ('VNM', 67.5, 1.81),('FPT', 115.2, -0.52),('HPG', 28.4, 0.35),
+      ('VIC', 42.1, -1.17),('MWG', 55.6, 2.03),('VCB', 88.0, 0.11),
+      ('BID', 48.5, -0.20),('TCB', 22.3, 0.45),('GAS', 71.0, -0.85),
+      ('SAB', 195.0, 0.62),('MSN', 68.4, 1.10),('REE', 55.2, -0.31),
+      ('SSI', 28.7, 0.95),('ACB', 21.6, 0.18),('HDB', 19.4, -0.41),
+    ] %}
+    {% for ma, gia, chg in ticker_data %}{% set cls = 'up' if chg > 0 else ('down' if chg < 0 else 'flat') %}
+    <a href="{{ url_for('trang.ket_qua') }}?ma={{ ma }}" class="ticker-item">
+      <span class="t-name">{{ ma }}</span>
+      <span class="t-price">{{ '%.1f'|format(gia) }}k</span>
+      <span class="t-chg {{ cls }}">{{ '+' if chg > 0 else '' }}{{ '%.2f'|format(chg) }}%</span>
+    </a>
+    {% endfor %}
+    {# Duplicate for seamless loop #}
+    {% for ma, gia, chg in ticker_data %}{% set cls = 'up' if chg > 0 else ('down' if chg < 0 else 'flat') %}
+    <a href="{{ url_for('trang.ket_qua') }}?ma={{ ma }}" class="ticker-item" aria-hidden="true">
+      <span class="t-name">{{ ma }}</span>
+      <span class="t-price">{{ '%.1f'|format(gia) }}k</span>
+      <span class="t-chg {{ cls }}">{{ '+' if chg > 0 else '' }}{{ '%.2f'|format(chg) }}%</span>
+    </a>
+    {% endfor %}
+  </div>
+</div>
 
-        <h1 class="hero-title" id="heroHeading">
-          Phân tích <span>cổ phiếu</span> Việt Nam<br>
-          chuyên sâu & miễn phí
+<!-- ================================================================
+     VN-INDEX / HNX / UPCOM BAR
+     ================================================================ -->
+<div class="index-bar">
+  <div class="container-fluid px-3">
+    <div class="d-flex align-items-stretch overflow-auto" style="gap:0;">
+      {% set indices = [
+        ('VN-Index',       '1.253,47', '+5,82', '+0,47%', 'up'),
+        ('HNX-Index',      '224,15',   '-0,38', '-0,17%', 'down'),
+        ('UPCOM',          '91,82',    '+0,21', '+0,23%', 'up'),
+        ('Thanh khoản',    '14.250 tỷ','',      '',       'flat'),
+        ('NN mua ròng',    '520 tỷ',   '',      '',       'up'),
+        ('Tăng / Giảm',   '312 / 185','',      '',       'flat'),
+      ] %}
+      {% for name, val, chg, pct, cls in indices %}
+      <div class="index-card py-1">
+        <span class="i-name">{{ name }}</span>
+        <span class="i-val">{{ val }}</span>
+        {% if chg %}<span class="i-chg {{ cls }}">{{ chg }} ({{ pct }})</span>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     HERO SECTION
+     ================================================================ -->
+<section class="home-hero" aria-labelledby="heroHeading">
+  <div class="container">
+    <div class="row align-items-center g-4">
+
+      <!-- Left -->
+      <div class="col-lg-6">
+        <div class="hero-eyebrow">
+          <span class="dot"></span>
+          Dữ liệu thị trường thực — vnstock
+        </div>
+        <h1 class="hero-h1" id="heroHeading">
+          Phân tích <span class="hl-yellow">cổ phiếu</span><br>
+          Việt Nam <span class="hl-green">chuyên sâu</span><br>
+          &amp; miễn phí
         </h1>
-        <p class="hero-subtitle">
-          Hơn 1.500 mã HOSE · HNX · UPCOM — Kỹ thuật, Cơ bản, So sánh tới 5 mã
+        <p class="hero-sub">
+          Hơn <strong>1.500 mã</strong> HOSE · HNX · UPCOM —
+          Kỹ thuật, Cơ bản, So sánh đến 5 mã.<br>
+          Dữ liệu vnstock · Xuất Excel báo cáo.
         </p>
 
-        <!-- Search form -->
-        <form id="heroSearchForm" class="hero-search" role="search"
-              action="{{ url_for('trang.ket_qua') }}" method="get">
-          <div class="input-group input-group-lg">
-            <span class="input-group-text" id="searchIcon">
-              <span class="material-icons" style="color:var(--color-secondary);">search</span>
-            </span>
-            <input id="heroSearchInput"
-                   type="text"
-                   name="ma"
-                   class="form-control"
+        <form id="heroSearchForm" action="{{ url_for('trang.ket_qua') }}" method="get" role="search">
+          <div class="home-search-wrap">
+            <span class="material-icons search-icon">search</span>
+            <input id="heroSearchInput" type="text" name="ma"
                    placeholder="Nhập mã cổ phiếu: VNM, FPT, HPG…"
                    aria-label="Nhập mã cổ phiếu"
-                   aria-describedby="searchIcon btnPhanTich"
-                   maxlength="10"
-                   autocomplete="off"
-                   autofocus>
-            <button id="btnPhanTich" class="btn btn-primary px-4" type="submit">
-              <span class="material-icons">search</span>
-              Phân tích
+                   maxlength="10" autocomplete="off" autofocus>
+            <button type="submit" class="btn-search">
+              <span class="material-icons">search</span> Phân tích
             </button>
           </div>
-          <div id="heroSearchError" class="text-warning mt-2 d-none" role="alert">
-            <span class="material-icons" style="font-size:14px; vertical-align:middle;">warning</span>
+          <div id="heroSearchError" class="d-none mt-2"
+               style="color:var(--color-ban);font-size:.83rem;">
+            <span class="material-icons" style="font-size:14px;vertical-align:middle;">warning</span>
             Vui lòng nhập mã cổ phiếu.
           </div>
         </form>
 
-        <!-- Suggestion chips -->
-        <div class="suggestion-chips justify-content-center mt-3" aria-label="Mã gợi ý">
-          {% for ma in ['VNM', 'FPT', 'HPG', 'VIC', 'MWG', 'VCB', 'BID', 'TCB'] %}
-          <a href="{{ url_for('trang.ket_qua') }}?ma={{ ma }}"
-             class="suggestion-chip"
-             aria-label="Phân tích {{ ma }}">{{ ma }}</a>
+        <div class="quick-chips mt-3">
+          <span style="font-size:.78rem;color:var(--color-text-muted);align-self:center;">Phổ biến:</span>
+          {% for ma in ['VNM','FPT','HPG','VIC','VCB','MWG','TCB','ACB'] %}
+          <a href="{{ url_for('trang.ket_qua') }}?ma={{ ma }}" class="quick-chip">{{ ma }}</a>
           {% endfor %}
         </div>
-
       </div>
+
+      <!-- Right — mini preview -->
+      <div class="col-lg-6 d-none d-lg-block">
+        <div class="hero-preview-card">
+          <div class="pc-header">
+            <span>📈 Thị trường hôm nay</span>
+            <a href="{{ url_for('trang.so_sanh') }}">Xem tất cả →</a>
+          </div>
+          {% set preview_stocks = [
+            ('VCB','Vietcombank', 88.0,  0.11,'up'),
+            ('FPT','FPT Corp',   115.2, -0.52,'down'),
+            ('HPG','Hòa Phát',    28.4,  0.35,'up'),
+            ('VIC','Vingroup',    42.1, -1.17,'down'),
+            ('MWG','TGDĐ',        55.6,  2.03,'up'),
+            ('VNM','Vinamilk',    67.5,  1.81,'up'),
+            ('TCB','Techcombank', 22.3,  0.45,'up'),
+            ('BID','BIDV',        48.5, -0.20,'down'),
+          ] %}
+          {% for ma, name, gia, chg, cls in preview_stocks %}
+          <a href="{{ url_for('trang.ket_qua') }}?ma={{ ma }}" class="preview-row">
+            <div>
+              <div class="pr-ticker">{{ ma }}</div>
+              <div class="pr-name">{{ name }}</div>
+            </div>
+            <div class="text-end">
+              <div class="pr-price">{{ '%.1f'|format(gia) }}k</div>
+              <div class="pr-chg {{ cls }}">{{ '+' if chg > 0 else '' }}{{ '%.2f'|format(chg) }}%</div>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- ======================================================================
-     POPULAR TICKERS
-     ====================================================================== -->
-<section class="py-5" aria-labelledby="popularHeading">
+<!-- ================================================================
+     STATS STRIP
+     ================================================================ -->
+<div class="stats-strip">
+  <div class="container">
+    <div class="d-flex align-items-center overflow-auto py-1" style="gap:0;">
+      <div class="stat-item">
+        <div class="si-icon yellow"><span class="material-icons">show_chart</span></div>
+        <div class="si-text">
+          <div class="si-label">Tổng mã niêm yết</div>
+          <div class="si-val">1.500+</div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <div class="si-icon green"><span class="material-icons">trending_up</span></div>
+        <div class="si-text">
+          <div class="si-label">Phân tích được</div>
+          <div class="si-val">HOSE · HNX · UPCOM</div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <div class="si-icon blue"><span class="material-icons">analytics</span></div>
+        <div class="si-text">
+          <div class="si-label">Chỉ báo kỹ thuật</div>
+          <div class="si-val">MA · RSI · MACD · BB</div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <div class="si-icon purple"><span class="material-icons">grade</span></div>
+        <div class="si-text">
+          <div class="si-label">Chỉ số cơ bản</div>
+          <div class="si-val">ROE · ROA · EPS · PE</div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <div class="si-icon yellow"><span class="material-icons">table_chart</span></div>
+        <div class="si-text">
+          <div class="si-label">Xuất báo cáo</div>
+          <div class="si-val">Excel 5 sheets</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     MARKET TABLE
+     ================================================================ -->
+<section class="market-section" aria-labelledby="marketHeading">
   <div class="container">
 
-    <div class="d-flex align-items-center justify-content-between mb-3">
-      <h2 class="fs-5 fw-bold mb-0" id="popularHeading">
-        <span class="material-icons align-middle me-1" style="color:var(--color-primary); font-size:20px;">star</span>
-        Mã phổ biến
-      </h2>
-      <a href="{{ url_for('trang.so_sanh') }}?ma=VNM,FPT,HPG,VIC,MWG"
-         class="btn btn-outline-primary btn-sm">
-        <span class="material-icons">compare_arrows</span>
-        So sánh nhóm này
+    <div class="d-flex align-items-end justify-content-between mb-1 flex-wrap gap-2">
+      <div>
+        <h2 class="section-title" id="marketHeading">Thị trường</h2>
+        <p class="section-sub mb-0">Giá và tín hiệu phân tích theo nhóm ngành</p>
+      </div>
+      <a href="{{ url_for('trang.so_sanh') }}" class="nav-cta-btn">
+        <span class="material-icons" style="font-size:16px;">compare_arrows</span>
+        So sánh nhóm
       </a>
     </div>
 
-    <div class="row g-3" id="popularGrid">
-      {% set tickers = [
-        ('VNM', 'Vinamilk',        67.5,   1.81, 'positive'),
-        ('FPT', 'FPT Corp',        115.2, -0.52, 'negative'),
-        ('HPG', 'Hòa Phát Group',   28.4,   0.35, 'positive'),
-        ('VIC', 'Vingroup',          42.1, -1.17, 'negative'),
-        ('MWG', 'Thế Giới Di Động', 55.6,   2.03, 'positive'),
-        ('VCB', 'Vietcombank',       88.0,   0.11, 'positive'),
-        ('BID', 'BIDV',              48.5, -0.20, 'negative'),
-        ('TCB', 'Techcombank',       22.3,   0.45, 'positive'),
-      ] %}
-      {% for ma, ten, gia, thay_doi, cls in tickers %}
-      <div class="col-6 col-sm-4 col-md-3 col-lg-3">
-        <a href="{{ url_for('trang.ket_qua') }}?ma={{ ma }}"
-           class="popular-ticker-card"
-           aria-label="Xem phân tích {{ ma }}">
-          <div class="d-flex justify-content-between align-items-start">
-            <span class="ticker-symbol">{{ ma }}</span>
-            <span class="ticker-change {{ cls }}">
-              {{ '+' if thay_doi > 0 else '' }}{{ '%.2f'|format(thay_doi) }}%
-            </span>
-          </div>
-          <div class="ticker-name">{{ ten }}</div>
-          <div class="ticker-price">{{ '%.1f'|format(gia) }} <small class="text-muted fw-normal">nghìn ₫</small></div>
-        </a>
-      </div>
-      {% endfor %}
+    <div class="cat-tabs" role="tablist" id="catTabs">
+      <button class="cat-tab active" data-cat="all"    role="tab" aria-selected="true">Tất cả</button>
+      <button class="cat-tab"        data-cat="bank"   role="tab">🏦 Ngân hàng</button>
+      <button class="cat-tab"        data-cat="tech"   role="tab">💻 Công nghệ</button>
+      <button class="cat-tab"        data-cat="bds"    role="tab">🏢 Bất động sản</button>
+      <button class="cat-tab"        data-cat="steel"  role="tab">⚙️ Thép & CN</button>
+      <button class="cat-tab"        data-cat="energy" role="tab">⛽ Dầu khí</button>
+      <button class="cat-tab"        data-cat="food"   role="tab">🛒 Tiêu dùng</button>
+    </div>
+
+    <div class="mkt-table-wrap">
+      <table class="mkt-table" aria-label="Bảng thị trường">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Mã</th>
+            <th>Giá (k₫)</th>
+            <th>Thay đổi</th>
+            <th class="d-none d-md-table-cell">KL (tr)</th>
+            <th class="d-none d-lg-table-cell">Xu hướng</th>
+            <th>Tín hiệu KT</th>
+            <th class="d-none d-md-table-cell">Cơ bản</th>
+            <th class="d-none d-lg-table-cell">Chi tiết</th>
+          </tr>
+        </thead>
+        <tbody id="mktTableBody">
+          {% set market_rows = [
+            (1, 'VCB','Vietcombank',  88.0,  0.11, 4.2, 'MUA',       'KHÁ', 'bank'),
+            (2, 'BID','BIDV',         48.5, -0.20, 5.1, 'GIỮ',       'KHÁ', 'bank'),
+            (3, 'CTG','VietinBank',   35.2,  0.57, 6.3, 'MUA',       'TỐT', 'bank'),
+            (4, 'TCB','Techcombank',  22.3,  0.45, 8.9, 'MUA MẠNH','TỐT', 'bank'),
+            (5, 'MBB','MB Bank',      19.8, -0.50,12.1, 'GIỮ',       'KHÁ', 'bank'),
+            (6, 'ACB','ACB',          21.6,  0.18, 7.4, 'MUA',       'TỐT', 'bank'),
+            (7, 'FPT','FPT Corp',    115.2, -0.52, 1.8, 'GIỮ',       'TỐT', 'tech'),
+            (8, 'CMG','CMC',          30.4,  1.32, 0.6, 'MUA',       'KHÁ', 'tech'),
+            (9, 'VIC','Vingroup',     42.1, -1.17, 3.5, 'BÁN',       'YẾU', 'bds'),
+            (10,'VHM','Vinhomes',     36.8, -0.81, 4.1, 'GIỮ',       'KHÁ', 'bds'),
+            (11,'KDH','Khang Điền',   25.3,  0.79, 2.2, 'MUA',       'KHÁ', 'bds'),
+            (12,'HPG','Hòa Phát',     28.4,  0.35,15.6, 'MUA MẠNH','TỐT', 'steel'),
+            (13,'HSG','Hoa Sen',      17.8, -0.56, 5.4, 'GIỮ',       'KHÁ', 'steel'),
+            (14,'GAS','PV Gas',       71.0, -0.85, 0.9, 'GIỮ',       'TỐT', 'energy'),
+            (15,'PLX','Petrolimex',   42.6,  0.23, 1.2, 'MUA',       'KHÁ', 'energy'),
+            (16,'VNM','Vinamilk',     67.5,  1.81, 2.3, 'MUA MẠNH','TỐT', 'food'),
+            (17,'SAB','Sabeco',      195.0,  0.62, 0.3, 'MUA',       'TỐT', 'food'),
+            (18,'MWG','TGDĐ',         55.6,  2.03, 3.8, 'MUA MẠNH','KHÁ', 'food'),
+          ] %}
+          {% for idx, ma, ten, gia, chg, vol, kt, cb, cat in market_rows %}
+          {% set chg_cls = 'up' if chg > 0 else ('down' if chg < 0 else 'flat') %}
+          {% set kt_cls = 'mua-manh' if kt == 'MUA MẠNH' else ('mua' if kt == 'MUA' else ('ban' if kt == 'BÁN' else 'giu')) %}
+          {% set cb_cls = 'tot' if cb == 'TỐT' else ('kha' if cb == 'KHÁ' else 'yeu') %}
+          <tr data-cat="{{ cat }}" onclick="window.location='{{ url_for('trang.ket_qua') }}?ma={{ ma }}'">
+            <td style="color:var(--color-text-muted);font-size:.78rem;">{{ idx }}</td>
+            <td>
+              <div class="mkt-td-ticker">{{ ma }}</div>
+              <div class="mkt-td-name">{{ ten }}</div>
+            </td>
+            <td class="mkt-td-price">{{ '%.1f'|format(gia) }}</td>
+            <td class="mkt-td-chg {{ chg_cls }}">
+              {{ '+' if chg > 0 else '' }}{{ '%.2f'|format(chg) }}%
+            </td>
+            <td class="mkt-td-vol d-none d-md-table-cell">{{ '%.1f'|format(vol) }}</td>
+            <td class="d-none d-lg-table-cell">
+              <svg class="sparkline" viewBox="0 0 72 30" fill="none">
+                {% if chg > 0 %}
+                <polyline points="0,25 14,20 28,22 42,14 56,10 72,6"
+                          stroke="var(--color-mua-manh)" stroke-width="1.5" fill="none" opacity=".9"/>
+                <polygon points="0,25 14,20 28,22 42,14 56,10 72,6 72,30 0,30"
+                         fill="rgba(14,203,129,.08)"/>
+                {% else %}
+                <polyline points="0,8 14,12 28,10 42,16 56,20 72,25"
+                          stroke="var(--color-ban)" stroke-width="1.5" fill="none" opacity=".9"/>
+                <polygon points="0,8 14,12 28,10 42,16 56,20 72,25 72,30 0,30"
+                         fill="rgba(246,70,93,.08)"/>
+                {% endif %}
+              </svg>
+            </td>
+            <td class="mkt-td-signal">
+              <span class="sig-badge {{ kt_cls }}">{{ kt }}</span>
+            </td>
+            <td class="mkt-td-score d-none d-md-table-cell">
+              <span class="score-pill {{ cb_cls }}">{{ cb }}</span>
+            </td>
+            <td class="d-none d-lg-table-cell">
+              <a href="{{ url_for('trang.ket_qua') }}?ma={{ ma }}" class="mkt-view-btn"
+                 onclick="event.stopPropagation()">Phân tích →</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
 
   </div>
 </section>
 
-<!-- ======================================================================
-     FEATURES
-     ====================================================================== -->
-<section class="py-5 bg-white border-top border-bottom" aria-labelledby="featuresHeading">
+<!-- ================================================================
+     FEATURES SECTION
+     ================================================================ -->
+<section class="features-section" aria-labelledby="featHeading">
   <div class="container">
-
     <div class="text-center mb-4">
-      <h2 class="fs-4 fw-bold" id="featuresHeading">Tính năng nổi bật</h2>
-      <p class="text-muted mb-0">Tất cả công cụ cần thiết để phân tích cổ phiếu Việt Nam</p>
+      <h2 class="section-title" id="featHeading">Tính năng nổi bật</h2>
+      <p class="section-sub">Đầy đủ công cụ phân tích chuyên sâu, miễn phí hoàn toàn</p>
     </div>
-
-    <div class="row g-4">
-
-      <div class="col-md-4">
-        <div class="feature-card">
-          <div class="feature-icon blue">
-            <span class="material-icons">trending_up</span>
-          </div>
-          <h3 class="feature-title">Phân tích Kỹ thuật</h3>
-          <p class="feature-desc">
-            MA20/50/200, RSI, MACD, Bollinger Bands — Tín hiệu MUA/BÁN tự động
-            với biểu đồ tương tác zoom/pan.
-          </p>
+    <div class="row g-3">
+      <div class="col-md-6 col-lg-3">
+        <div class="feat-card c-yellow">
+          <div class="feat-icon-wrap c-yellow"><span class="material-icons">trending_up</span></div>
+          <div class="feat-title">Phân tích Kỹ thuật</div>
+          <p class="feat-desc">MA20/50/200, RSI, MACD, Bollinger Bands. Tín hiệu MUA/BÁN tự động với biểu đồ zoom/pan.</p>
+          <a href="{{ url_for('trang.ket_qua') }}?ma=FPT" class="feat-link">Thử ngay <span class="material-icons">arrow_forward</span></a>
         </div>
       </div>
-
-      <div class="col-md-4">
-        <div class="feature-card">
-          <div class="feature-icon green">
-            <span class="material-icons">analytics</span>
-          </div>
-          <h3 class="feature-title">Phân tích Cơ bản</h3>
-          <p class="feature-desc">
-            ROE, ROA, EPS, P/E, P/B, D/E — Chấm điểm 0–12 theo tiêu chuẩn
-            và phân loại TỐT / KHÁ / YẾU.
-          </p>
+      <div class="col-md-6 col-lg-3">
+        <div class="feat-card c-green">
+          <div class="feat-icon-wrap c-green"><span class="material-icons">analytics</span></div>
+          <div class="feat-title">Phân tích Cơ bản</div>
+          <p class="feat-desc">ROE, ROA, EPS, P/E, P/B, D/E từ BCTC thực. Chấm điểm 0–12 và phân loại TỐT/KHÁ/YẾU.</p>
+          <a href="{{ url_for('trang.ket_qua') }}?ma=VNM" class="feat-link">Thử ngay <span class="material-icons">arrow_forward</span></a>
         </div>
       </div>
-
-      <div class="col-md-4">
-        <div class="feature-card">
-          <div class="feature-icon orange">
-            <span class="material-icons">compare_arrows</span>
-          </div>
-          <h3 class="feature-title">So sánh nhiều mã</h3>
-          <p class="feature-desc">
-            Đặt cạnh nhau tới 5 cổ phiếu — biểu đồ giá chuẩn hóa,
-            bảng chỉ số đối chiếu, tín hiệu kỹ thuật song song.
-          </p>
+      <div class="col-md-6 col-lg-3">
+        <div class="feat-card c-blue">
+          <div class="feat-icon-wrap c-blue"><span class="material-icons">compare_arrows</span></div>
+          <div class="feat-title">So sánh nhiều mã</div>
+          <p class="feat-desc">So sánh tối đa 5 cổ phiếu — biểu đồ giá chuẩn hóa, bảng chỉ số đối chiếu song song.</p>
+          <a href="{{ url_for('trang.so_sanh') }}?ma=VNM,FPT,HPG" class="feat-link">So sánh ngay <span class="material-icons">arrow_forward</span></a>
         </div>
       </div>
-
+      <div class="col-md-6 col-lg-3">
+        <div class="feat-card c-purple">
+          <div class="feat-icon-wrap c-purple"><span class="material-icons">download</span></div>
+          <div class="feat-title">Xuất Excel báo cáo</div>
+          <p class="feat-desc">Tải file .xlsx chuyên nghiệp gồm 5 sheet: Tổng hợp, Giá lịch sử, KT, CB — màu chuẩn.</p>
+          <a href="{{ url_for('trang.ket_qua') }}?ma=VCB" class="feat-link">Xem demo <span class="material-icons">arrow_forward</span></a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ======================================================================
-     DISCLAIMER
-     ====================================================================== -->
-<section class="py-4">
+<!-- ================================================================
+     HOW IT WORKS
+     ================================================================ -->
+<section class="how-section" aria-labelledby="howHeading">
   <div class="container">
-    <div class="alert alert-warning" role="note">
-      <span class="material-icons">info</span>
-      <div>
-        <strong>Lưu ý:</strong> Thông tin trên trang web này chỉ phục vụ mục đích
-        <strong>học tập và nghiên cứu</strong>. Không phải lời khuyên đầu tư.
-        Dữ liệu được cung cấp bởi <strong>vnstock</strong>; hãy kiểm chứng
-        với CafeF / Vietstock trước khi ra quyết định.
+    <div class="row align-items-center g-5">
+      <div class="col-lg-5">
+        <h2 class="section-title" id="howHeading">Cách sử dụng</h2>
+        <p class="section-sub">Chỉ 3 bước để có báo cáo phân tích đầy đủ</p>
+        <div class="d-flex flex-column gap-4 mt-4">
+          <div class="how-step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Nhập mã cổ phiếu</div>
+              <div class="step-desc">Gõ mã cổ phiếu HOSE/HNX (VD: FPT, VNM, HPG) vào ô tìm kiếm và nhấn Phân tích.</div>
+            </div>
+          </div>
+          <div class="how-step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">Xem kết quả phân tích</div>
+              <div class="step-desc">Hệ thống tự động tính toán chỉ báo kỹ thuật, chỉ số cơ bản và đưa ra tín hiệu khuyến nghị.</div>
+            </div>
+          </div>
+          <div class="how-step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">Xuất Excel / So sánh</div>
+              <div class="step-desc">Tải file Excel báo cáo đầy đủ hoặc so sánh nhiều mã cùng lúc để ra quyết định.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="row g-3">
+          {% set group_btns = [
+            ('🏦 Ngân hàng',    ['VCB','BID','CTG','TCB','MBB']),
+            ('💻 Công nghệ',    ['FPT','CMG']),
+            ('🏢 Bất động sản', ['VIC','VHM','KDH','PDR']),
+            ('⚙️ Thép & CN',    ['HPG','HSG','NKG']),
+            ('⛽ Dầu khí',      ['GAS','PLX','PVD']),
+            ('🛒 Tiêu dùng',    ['VNM','SAB','MWG','PNJ']),
+          ] %}
+          {% for group_name, tickers in group_btns %}
+          <div class="col-md-6">
+            <div class="group-panel">
+              <div class="gp-label">{{ group_name }}</div>
+              <div style="display:flex;flex-wrap:wrap;gap:.4rem;">
+                {% for t in tickers %}
+                <a href="{{ url_for('trang.ket_qua') }}?ma={{ t }}" class="group-chip">{{ t }}</a>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- ================================================================
+     DISCLAIMER
+     ================================================================ -->
+<div class="container pb-4">
+  <div class="disclaimer-banner">
+    <span class="material-icons">info</span>
+    <div>
+      <strong>Lưu ý quan trọng:</strong>
+      Thông tin trên trang web này chỉ phục vụ mục đích <strong>học tập và nghiên cứu</strong>,
+      không phải lời khuyên đầu tư. Dữ liệu cung cấp bởi <strong>vnstock</strong>;
+      hãy kiểm chứng với CafeF · Vietstock · SSI trước khi ra quyết định đầu tư.
+    </div>
+  </div>
+</div>
 
 {% endblock %}
 
 {% block scripts %}
 <script>
-  // Validate empty search
-  document.getElementById('heroSearchForm').addEventListener('submit', function (e) {
-    const val = document.getElementById('heroSearchInput').value.trim();
-    if (!val) {
-      e.preventDefault();
-      document.getElementById('heroSearchError').classList.remove('d-none');
-    }
+'use strict';
+
+// ── Search validation ──
+document.getElementById('heroSearchForm').addEventListener('submit', function(e) {
+  if (!document.getElementById('heroSearchInput').value.trim()) {
+    e.preventDefault();
+    document.getElementById('heroSearchError').classList.remove('d-none');
+  }
+});
+document.getElementById('heroSearchInput').addEventListener('input', function() {
+  const pos = this.selectionStart;
+  this.value = this.value.toUpperCase();
+  this.setSelectionRange(pos, pos);
+  document.getElementById('heroSearchError').classList.add('d-none');
+});
+
+// ── Category tabs ──
+document.querySelectorAll('.cat-tab').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.cat-tab').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected','false');
+    });
+    this.classList.add('active');
+    this.setAttribute('aria-selected','true');
+
+    const cat = this.dataset.cat;
+    let n = 1;
+    document.querySelectorAll('#mktTableBody tr').forEach(row => {
+      const show = cat === 'all' || row.dataset.cat === cat;
+      row.style.display = show ? '' : 'none';
+      if (show) {
+        const c = row.querySelector('td:first-child');
+        if (c) c.textContent = n++;
+      }
+    });
   });
-  // Auto-uppercase input
-  document.getElementById('heroSearchInput').addEventListener('input', function () {
-    const pos = this.selectionStart;
-    this.value = this.value.toUpperCase();
-    this.setSelectionRange(pos, pos);
-    document.getElementById('heroSearchError').classList.add('d-none');
-  });
+});
+
+// ── Subtle index bar pulse to simulate live ──
+(function() {
+  const vals = document.querySelectorAll('.i-val');
+  if (!vals.length) return;
+  setInterval(() => {
+    const t = vals[Math.floor(Math.random() * vals.length)];
+    const up = Math.random() > .5;
+    t.style.transition = 'color .3s';
+    t.style.color = up
+      ? getComputedStyle(document.documentElement).getPropertyValue('--color-mua-manh').trim()
+      : getComputedStyle(document.documentElement).getPropertyValue('--color-ban').trim();
+    setTimeout(() => {
+      t.style.color = getComputedStyle(document.documentElement).getPropertyValue('--color-text').trim();
+    }, 800);
+  }, 3000);
+})();
 </script>
 {% endblock %}
