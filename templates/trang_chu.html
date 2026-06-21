@@ -470,6 +470,79 @@
 /* ---------- FEATURES SECTION ---------- */
 .features-section { padding: 3rem 0; background: var(--color-bg-2); }
 
+/* ---------- FAQ SECTION ---------- */
+.faq-section {
+  padding: 4rem 0;
+  background: var(--color-bg-2);
+}
+.faq-list {
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.faq-item {
+  border-bottom: 1px solid var(--color-border-light);
+}
+.faq-item:first-child { border-top: 1px solid var(--color-border-light); }
+.faq-q {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 1.1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  text-align: left;
+  color: var(--color-text);
+  transition: color .15s;
+}
+.faq-q:hover { color: var(--accent); }
+.faq-q.is-open { color: var(--accent); }
+.faq-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: rgba(var(--accent-rgb),.1);
+  color: var(--accent);
+  font-size: .75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.faq-q-text {
+  font-size: .95rem;
+  font-weight: 600;
+  flex: 1;
+  line-height: 1.4;
+}
+.faq-icon {
+  font-size: 20px;
+  color: var(--color-text-muted);
+  transition: transform .3s cubic-bezier(.4,0,.2,1), color .15s;
+  flex-shrink: 0;
+}
+.faq-q.is-open .faq-icon {
+  transform: rotate(45deg);
+  color: var(--accent);
+}
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .4s cubic-bezier(.4,0,.2,1);
+}
+.faq-a.is-open { max-height: 400px; }
+.faq-a-inner {
+  padding: 0 0 1.25rem 2.6rem;
+  font-size: .88rem;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+.faq-a-inner strong { color: var(--color-text); }
+
 /* ---------- VIEW BUTTON in table ---------- */
 .mkt-view-btn {
   background: var(--color-bg-hover);
@@ -799,58 +872,16 @@
   </div>
 </section>
 
-<!-- ================================================================
-     FEATURES SECTION
-     ================================================================ -->
-<section class="features-section" aria-labelledby="featHeading">
-  <div class="container">
-    <div class="text-center mb-4">
-      <h2 class="section-title" id="featHeading">Tính năng nổi bật</h2>
-      <p class="section-sub">Đầy đủ công cụ phân tích chuyên sâu, miễn phí hoàn toàn</p>
-    </div>
-    <div class="row g-3">
-      <div class="col-md-6 col-lg-3">
-        <div class="feat-card c-yellow">
-          <div class="feat-icon-wrap c-yellow"><span class="material-icons">trending_up</span></div>
-          <div class="feat-title">Phân tích Kỹ thuật</div>
-          <p class="feat-desc">MA20/50/200, RSI, MACD, Bollinger Bands. Tín hiệu MUA/BÁN tự động với biểu đồ zoom/pan.</p>
-          <a href="{{ url_for('trang.ket_qua') }}?ma=FPT" class="feat-link">Thử ngay <span class="material-icons">arrow_forward</span></a>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3">
-        <div class="feat-card c-green">
-          <div class="feat-icon-wrap c-green"><span class="material-icons">analytics</span></div>
-          <div class="feat-title">Phân tích Cơ bản</div>
-          <p class="feat-desc">ROE, ROA, EPS, P/E, P/B, D/E từ BCTC thực. Chấm điểm 0–12 và phân loại TỐT/KHÁ/YẾU.</p>
-          <a href="{{ url_for('trang.ket_qua') }}?ma=VNM" class="feat-link">Thử ngay <span class="material-icons">arrow_forward</span></a>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3">
-        <div class="feat-card c-blue">
-          <div class="feat-icon-wrap c-blue"><span class="material-icons">compare_arrows</span></div>
-          <div class="feat-title">So sánh nhiều mã</div>
-          <p class="feat-desc">So sánh tối đa 5 cổ phiếu — biểu đồ giá chuẩn hóa, bảng chỉ số đối chiếu song song.</p>
-          <a href="{{ url_for('trang.so_sanh') }}?ma=VNM,FPT,HPG" class="feat-link">So sánh ngay <span class="material-icons">arrow_forward</span></a>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3">
-        <div class="feat-card c-purple">
-          <div class="feat-icon-wrap c-purple"><span class="material-icons">download</span></div>
-          <div class="feat-title">Xuất Excel báo cáo</div>
-          <p class="feat-desc">Tải file .xlsx chuyên nghiệp gồm 5 sheet: Tổng hợp, Giá lịch sử, KT, CB — màu chuẩn.</p>
-          <a href="{{ url_for('trang.ket_qua') }}?ma=VCB" class="feat-link">Xem demo <span class="material-icons">arrow_forward</span></a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 <!-- ================================================================
-     HOW IT WORKS
+     HOW IT WORKS + FAQ  (gộp 2 cột)
      ================================================================ -->
 <section class="how-section" aria-labelledby="howHeading">
   <div class="container">
-    <div class="row align-items-center g-5">
+    <div class="row g-5">
+
+      <!-- Left: 3 steps -->
       <div class="col-lg-5">
         <h2 class="section-title" id="howHeading">Cách sử dụng</h2>
         <p class="section-sub">Chỉ 3 bước để có báo cáo phân tích đầy đủ</p>
@@ -878,33 +909,56 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-7">
-        <div class="row g-3">
-          {% set group_btns = [
-            ('🏦 Ngân hàng',    ['VCB','BID','CTG','TCB','MBB']),
-            ('💻 Công nghệ',    ['FPT','CMG']),
-            ('🏢 Bất động sản', ['VIC','VHM','KDH','PDR']),
-            ('⚙️ Thép & CN',    ['HPG','HSG','NKG']),
-            ('⛽ Dầu khí',      ['GAS','PLX','PVD']),
-            ('🛒 Tiêu dùng',    ['VNM','SAB','MWG','PNJ']),
+
+      <!-- Right: FAQ -->
+      <div class="col-lg-7" id="faqSection">
+        <h2 class="section-title" id="faqHeading">Câu hỏi thường gặp</h2>
+        <p class="section-sub">Mọi thắc mắc về công cụ phân tích cổ phiếu</p>
+        <div class="faq-list mt-4" id="faqAccordion">
+          {% set faqs = [
+            (
+              'Dữ liệu của hệ thống đến từ đâu?',
+              'Hệ thống sử dụng thư viện <strong>vnstock</strong> để lấy dữ liệu thị trường từ các nguồn uy tín như TCBS, SSI, và HNX. Dữ liệu bao gồm giá lịch sử, báo cáo tài chính (BCTC), và các chỉ số thị trường cập nhật theo thời gian thực.'
+            ),(
+              'Các chỉ báo kỹ thuật được tính toán như thế nào?',
+              'Hệ thống tính toán hoàn toàn tự động các chỉ báo: <strong>MA20/50/200</strong> (trung bình động), <strong>RSI-14</strong> (chỉ số sức mạnh tương đối), <strong>MACD</strong> (Signal + Histogram), và <strong>Bollinger Bands</strong>. Từ đó tự động đưa ra tín hiệu MUA MẠNH / MUA / GIỮ / BÁN.'
+            ),(
+              'Chấm điểm cơ bản dựa trên tiêu chí nào?',
+              'Hệ thống chấm điểm 6 chỉ số (tối đa 12 điểm): <strong>ROE</strong> (sinh lời vốn), <strong>ROA</strong> (sinh lời tài sản), <strong>EPS</strong> (lợi nhuận/cổ phiếu), <strong>P/E</strong> (định giá), <strong>P/B</strong> (giá trị sổ), <strong>D/E</strong> (đòn bẩy). Mỗi chỉ số cho 0–2 điểm theo ngưỡng chuẩn châu Á. Bấm vào từng chỉ số để xem giải thích chi tiết.'
+            ),(
+              'Tôi có thể phân tích những cổ phiếu nào?',
+              'Hệ thống hỗ trợ hơn <strong>1.500 mã</strong> niêm yết trên cả 3 sàn: <strong>HOSE</strong>, <strong>HNX</strong> và <strong>UPCOM</strong>. Chỉ cần nhập mã cổ phiếu vào ô tìm kiếm (VD: VNM, FPT, HPG) là hệ thống tự động lấy dữ liệu và phân tích ngay.'
+            ),(
+              'File Excel xuất ra gồm những gì?',
+              'File .xlsx gồm <strong>5 sheet</strong>: (1) Tổng hợp kết quả phân tích, (2) Bảng giá lịch sử đầy đủ, (3) Chỉ số kỹ thuật, (4) Chỉ số cơ bản từ BCTC, (5) Báo cáo tài chính gốc. Được định dạng màu chuẩn chuyên nghiệp và sẵn sàng in.'
+            ),(
+              'Dữ liệu có được cập nhật thường xuyên không?',
+              'Giá lịch sử được lấy trực tiếp từ API mỗi lần bạn phân tích. Hệ thống có cơ chế <strong>cache thông minh</strong>: lưu cục bộ 24 giờ cho BCTC (vì BCTC chỉ cập nhật theo quý) và cập nhật giá thời gian thực khi phiên giao dịch đang mở.'
+            ),(
+              'Công cụ này có miễn phí không?',
+              '<strong>Hoàn toàn miễn phí</strong>. Đây là dự án học tập và nghiên cứu môn Tin học. Mọi tính năng — phân tích kỹ thuật, cơ bản, so sánh, xuất Excel — đều không giới hạn và không yêu cầu đăng nhập.'
+            ),
           ] %}
-          {% for group_name, tickers in group_btns %}
-          <div class="col-md-6">
-            <div class="group-panel">
-              <div class="gp-label">{{ group_name }}</div>
-              <div style="display:flex;flex-wrap:wrap;gap:.4rem;">
-                {% for t in tickers %}
-                <a href="{{ url_for('trang.ket_qua') }}?ma={{ t }}" class="group-chip">{{ t }}</a>
-                {% endfor %}
-              </div>
+          {% for q, a in faqs %}
+          <div class="faq-item" id="faq{{ loop.index0 }}">
+            <button class="faq-q" aria-expanded="false" aria-controls="faqA{{ loop.index0 }}"
+                    onclick="toggleFaq({{ loop.index0 }})">
+              <span class="faq-num">{{ loop.index }}</span>
+              <span class="faq-q-text">{{ q }}</span>
+              <span class="faq-icon material-icons">add</span>
+            </button>
+            <div class="faq-a" id="faqA{{ loop.index0 }}" role="region" aria-labelledby="faq{{ loop.index0 }}">
+              <div class="faq-a-inner">{{ a | safe }}</div>
             </div>
           </div>
           {% endfor %}
         </div>
       </div>
+
     </div>
   </div>
 </section>
+
 
 <!-- ================================================================
      DISCLAIMER
@@ -963,6 +1017,27 @@ document.querySelectorAll('.cat-tab').forEach(btn => {
     });
   });
 });
+
+// ── FAQ Accordion ──
+function toggleFaq(idx) {
+  const btn  = document.querySelector(`#faq${idx} .faq-q`);
+  const body = document.getElementById(`faqA${idx}`);
+  const isOpen = btn.classList.contains('is-open');
+
+  // Close all
+  document.querySelectorAll('.faq-q.is-open').forEach(b => {
+    b.classList.remove('is-open');
+    b.setAttribute('aria-expanded', 'false');
+  });
+  document.querySelectorAll('.faq-a.is-open').forEach(a => a.classList.remove('is-open'));
+
+  // Open clicked (if was closed)
+  if (!isOpen) {
+    btn.classList.add('is-open');
+    btn.setAttribute('aria-expanded', 'true');
+    body.classList.add('is-open');
+  }
+}
 
 // ── Subtle index bar pulse to simulate live ──
 (function() {

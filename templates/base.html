@@ -48,11 +48,8 @@
            class="nav-pill {% if request.endpoint == 'trang.so_sanh' %}active{% endif %}">
           So sánh
         </a>
-        <a href="{{ url_for('trang.ket_qua') }}?ma=VNM"
-           class="nav-pill">
-          Demo
-        </a>
       </div>
+
 
       <!-- Mini search (hidden on home) -->
       {% if request.endpoint != 'trang.trang_chu' %}
